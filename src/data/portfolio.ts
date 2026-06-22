@@ -55,6 +55,17 @@ export interface TrustItem {
   href?: string;
 }
 
+export interface FiverrReviewStat {
+  value: string;
+  label: string;
+  detail: string;
+}
+
+export interface FiverrReviewHighlight {
+  focus: string;
+  summary: string;
+}
+
 export const contact = {
   email: "tallalaamir321@gmail.com",
   phone: "+923125126884",
@@ -500,6 +511,61 @@ export const whyHire: WhyHireItem[] = [
   {
     title: "Shopify plus full-stack range",
     description: "I can support Shopify delivery while also handling Next.js and product-style engineering tasks."
+  }
+];
+
+export const fiverrReviewStats: FiverrReviewStat[] = [
+  {
+    value: "5.0",
+    label: "Overall Fiverr rating",
+    detail: "Public profile rating across client reviews"
+  },
+  {
+    value: "24",
+    label: "Public reviews",
+    detail: "Fiverr buyers reviewing delivered work"
+  },
+  {
+    value: "Level 1",
+    label: "Seller status",
+    detail: "Active freelance delivery profile"
+  }
+];
+
+export const fiverrReviewBreakdown: FiverrReviewStat[] = [
+  {
+    value: "5/5",
+    label: "Communication",
+    detail: "Clear updates and responsive project handling"
+  },
+  {
+    value: "5/5",
+    label: "Quality",
+    detail: "Clean delivery across Shopify and web tasks"
+  },
+  {
+    value: "5/5",
+    label: "Value",
+    detail: "Strong output for client budget and timelines"
+  }
+];
+
+export const fiverrReviewHighlights: FiverrReviewHighlight[] = [
+  {
+    focus: "Shopify fixes",
+    summary: "Clients point to fast theme debugging, clean custom code, and quick turnarounds on urgent store tasks."
+  },
+  {
+    focus: "Store builds",
+    summary: "Review patterns highlight polished Shopify delivery, practical guidance, and a smooth handoff after launch."
+  },
+  {
+    focus: "Custom features",
+    summary: "Buyers value the ability to translate unclear requests into working product sections, UI logic, and storefront improvements."
+  },
+  {
+    focus: "Client support",
+    summary: "Feedback consistently reflects responsive communication, patience, and professional help during revisions."
   }
 ];
 

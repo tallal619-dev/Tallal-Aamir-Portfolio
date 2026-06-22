@@ -2,6 +2,7 @@ import { Contact } from "@/components/sections/Contact";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
 import { Expertise } from "@/components/sections/Expertise";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
+import { FiverrReviews } from "@/components/sections/FiverrReviews";
 import { Hero } from "@/components/sections/Hero";
 import { NeonName } from "@/components/sections/NeonName";
 import { Process } from "@/components/sections/Process";
@@ -21,6 +22,7 @@ export default function Home() {
       <ShopifyStack />
       <Process />
       <WhyHireMe />
+      <FiverrReviews />
       <Contact />
     </main>
   );

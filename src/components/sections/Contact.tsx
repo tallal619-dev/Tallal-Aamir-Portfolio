@@ -21,7 +21,7 @@ export function Contact() {
   return (
     <section id="contact" className="section-shell py-24 sm:py-32">
       <SectionHeading
-        index="08"
+        index="09"
         eyebrow="Contact"
         title="Work With Muhammad Tallal Aamir"
         copy="Open to remote Shopify roles, agency contracts, freelance builds, and long-term e-commerce development partnerships."
