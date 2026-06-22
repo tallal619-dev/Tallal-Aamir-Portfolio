@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { CursorFollower } from "@/components/ui/CursorFollower";
 import { FloatingFiverrCTA } from "@/components/ui/FloatingFiverrCTA";
@@ -66,7 +65,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <Header />
         {children}
         <FloatingFiverrCTA />
-        <Footer />
       </body>
     </html>
   );

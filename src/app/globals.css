@@ -257,12 +257,110 @@ button {
   background: rgba(215, 255, 74, 0.45);
 }
 
+.contact-panel {
+  clip-path: inset(0% 0% 0% 0%);
+}
+
+.contact-intro {
+  opacity: 0;
+  transform: translateY(-150px) scale(0.82);
+}
+
+.contact-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-divider {
+  transform: scaleX(1);
+}
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 1024px) {
+    .contact-reveal {
+      view-timeline-name: --contact-reveal;
+      view-timeline-axis: block;
+    }
+
+    .contact-panel {
+      clip-path: inset(34% 0% 0% 0%);
+      animation: contact-panel-expand linear both;
+      animation-timeline: --contact-reveal;
+      animation-range: entry 8% cover 46%;
+    }
+
+    .contact-intro {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      animation: contact-intro-out linear both;
+      animation-timeline: --contact-reveal;
+      animation-range: entry 18% cover 50%;
+    }
+
+    .contact-content {
+      opacity: 0;
+      transform: translateY(110px);
+      animation: contact-content-in linear both;
+      animation-timeline: --contact-reveal;
+      animation-range: cover 44% cover 64%;
+    }
+
+    .contact-divider {
+      transform: scaleX(0);
+      animation: contact-divider-in linear both;
+      animation-timeline: --contact-reveal;
+      animation-range: cover 56% cover 76%;
+    }
+  }
+}
+
 @keyframes marquee {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
     transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes contact-panel-expand {
+  from {
+    clip-path: inset(34% 0% 0% 0%);
+  }
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+}
+
+@keyframes contact-intro-out {
+  0%,
+  42% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-150px) scale(0.82);
+  }
+}
+
+@keyframes contact-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(110px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes contact-divider-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 

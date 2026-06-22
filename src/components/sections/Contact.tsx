@@ -1,105 +1,260 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { ExternalLink, Mail, MessageCircle, Send } from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Download, ExternalLink, Mail, MessageCircle } from "lucide-react";
 import { contact } from "@/data/portfolio";
 import { buildMailto } from "@/lib/utils";
-import { MagneticButton } from "@/components/ui/MagneticButton";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+
+const footerLinks = [
+  { label: "Fiverr", href: contact.fiverr, external: true },
+  { label: "Resume", href: contact.resume, download: true },
+  { label: "Email", href: `mailto:${contact.email}` },
+  { label: "Top", href: "#top" }
+];
 
 export function Contact() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const introRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isCompact = window.matchMedia("(max-width: 1023px)").matches;
+    const disableReveal = prefersReducedMotion || isCompact;
+    let frame = 0;
+    let current = 0;
+    let target = 0;
+
+    const clamp = (value: number) => Math.min(Math.max(value, 0), 1);
+    const mapProgress = (value: number, start: number, end: number) => clamp((value - start) / (end - start));
+
+    const applyProgress = (value: number) => {
+      const panel = panelRef.current;
+      const intro = introRef.current;
+      const content = contentRef.current;
+      const divider = dividerRef.current;
+
+      if (!panel || !intro || !content || !divider) {
+        return;
+      }
+
+      if (disableReveal) {
+        panel.style.clipPath = "inset(0% 0% 0% 0%)";
+        intro.style.opacity = "0";
+        content.style.opacity = "1";
+        content.style.transform = "translateY(0px)";
+        divider.style.transform = "scaleX(1)";
+        return;
+      }
+
+      const expand = mapProgress(value, 0, 0.46);
+      const introOut = mapProgress(value, 0.26, 0.46);
+      const contentIn = mapProgress(value, 0.42, 0.62);
+      const dividerIn = mapProgress(value, 0.54, 0.76);
+
+      panel.style.clipPath = `inset(${34 - expand * 34}% 0% 0% 0%)`;
+      intro.style.opacity = `${1 - introOut}`;
+      intro.style.transform = `translateY(${-150 * introOut}px) scale(${1 - 0.18 * introOut})`;
+      content.style.opacity = `${contentIn}`;
+      content.style.transform = `translateY(${110 - 110 * contentIn}px)`;
+      divider.style.transform = `scaleX(${dividerIn})`;
+    };
+
+    const updateProgress = () => {
+      const section = sectionRef.current;
+
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+        target = clamp(-rect.top / travel);
+      }
+    };
+
+    if (disableReveal) {
+      applyProgress(1);
+      return undefined;
+    }
+
+    const tick = () => {
+      updateProgress();
+      current += (target - current) * 0.16;
+
+      if (Math.abs(target - current) < 0.001) {
+        current = target;
+      }
+
+      applyProgress(current);
+      frame = requestAnimationFrame(tick);
+    };
+
+    updateProgress();
+    applyProgress(current);
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    frame = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, []);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const subject = `Shopify work inquiry from ${name || "Portfolio visitor"}`;
-    const body = message || "Hi Tallal, I would like to discuss a Shopify project, role, or agency contract.";
+    const subject = `Portfolio inquiry from ${name || "Portfolio visitor"}`;
+    const body = [
+      `Name: ${name || "Not provided"}`,
+      `Email: ${email || "Not provided"}`,
+      `Phone: ${phone || "Not provided"}`,
+      "",
+      message || "Hi Tallal, I would like to discuss a Shopify project, role, or agency contract."
+    ].join("\n");
+
     window.location.href = buildMailto(subject, body);
   };
 
   return (
-    <section id="contact" className="section-shell py-24 sm:py-32">
-      <SectionHeading
-        index="09"
-        eyebrow="Contact"
-        title="Work With Muhammad Tallal Aamir"
-        copy="Open to remote Shopify roles, agency contracts, freelance builds, and long-term e-commerce development partnerships."
-      />
-
-      <div className="mt-14 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-        <div className="glass-panel rounded-[8px] p-6 sm:p-8">
-          <p className="text-xl leading-8 text-cream">
-            I can join a team, support an agency pipeline, work directly with clients, or own a focused Shopify or full-stack feature from brief to launch.
-          </p>
-          <div className="mt-8 grid gap-3">
-            <MagneticButton href={`mailto:${contact.email}`} className="w-full justify-between">
-              Email Me
-            </MagneticButton>
-            <MagneticButton href={contact.whatsapp} target="_blank" variant="secondary" className="w-full justify-between">
-              WhatsApp Me
-            </MagneticButton>
-            <MagneticButton href={contact.fiverr} target="_blank" variant="secondary" className="w-full justify-between">
-              Fiverr Profile
-            </MagneticButton>
-            <MagneticButton href={contact.resume} download variant="secondary" className="w-full justify-between">
-              Download Resume
-            </MagneticButton>
+    <section ref={sectionRef} id="contact" className="contact-reveal relative z-50 bg-lime text-black lg:min-h-[235svh] lg:bg-black">
+      <div className="relative min-h-[100svh] overflow-visible bg-lime lg:sticky lg:top-0 lg:overflow-hidden lg:bg-black">
+        <div
+          ref={panelRef}
+          className="contact-panel relative min-h-[100svh] bg-lime text-black lg:absolute lg:inset-0"
+        >
+          <div
+            ref={introRef}
+            className="contact-intro pointer-events-none absolute inset-0 hidden items-center justify-center px-4 lg:flex"
+          >
+            <div className="flex w-full items-center justify-center gap-[3vw] whitespace-nowrap">
+              <span className="display-text text-[clamp(4.5rem,17vw,20rem)] text-black">LET&apos;S</span>
+              <span className="display-text rotate-12 text-[clamp(3.7rem,9vw,11rem)] leading-none text-[#ff5a1f]">*</span>
+              <span className="display-text text-[clamp(4.5rem,17vw,20rem)] text-black">TALK</span>
+            </div>
           </div>
-          <div className="mt-8 grid gap-3 text-sm text-muted">
-            <a className="focus-ring inline-flex items-center gap-3 transition hover:text-cream" href={`mailto:${contact.email}`}>
-              <Mail size={17} className="text-lime" />
-              {contact.email}
-            </a>
-            <a className="focus-ring inline-flex items-center gap-3 transition hover:text-cream" href={contact.whatsapp} target="_blank" rel="noopener noreferrer">
-              <MessageCircle size={17} className="text-lime" />
-              {contact.phone}
-            </a>
-            <a className="focus-ring inline-flex items-center gap-3 transition hover:text-cream" href={contact.fiverr} target="_blank" rel="noopener noreferrer">
-              <ExternalLink size={17} className="text-lime" />
-              fiverr.com/tallalaamir
-            </a>
+
+          <div
+            ref={contentRef}
+            className="contact-content relative z-10 flex min-h-[100svh] flex-col justify-between overflow-visible px-5 py-7 sm:px-8 sm:py-10 lg:overflow-y-auto lg:px-14 lg:py-12"
+          >
+            <div
+              ref={dividerRef}
+              aria-hidden="true"
+              className="contact-divider h-1 origin-left bg-black"
+            />
+
+            <div className="grid gap-10 py-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-16 xl:gap-24">
+              <div>
+                <p className="font-mono text-xs font-black uppercase tracking-[0.24em] text-black/68">09 / Contact</p>
+                <h2 className="display-text mt-5 max-w-xl text-[clamp(4.2rem,10vw,10.5rem)] text-black">Get In Touch</h2>
+                <p className="mt-7 max-w-md text-base font-bold leading-7 text-black/72 sm:text-lg">
+                  Open to remote Shopify roles, agency contracts, freelance builds, and long-term e-commerce development partnerships.
+                </p>
+
+                <div className="mt-9 grid gap-4 text-lg font-black uppercase text-black sm:text-xl">
+                  <a className="focus-ring inline-flex w-fit items-center gap-3 transition hover:opacity-65" href={`mailto:${contact.email}`}>
+                    <Mail size={20} />
+                    {contact.email}
+                  </a>
+                  <a className="focus-ring inline-flex w-fit items-center gap-3 transition hover:opacity-65" href={contact.whatsapp} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle size={20} />
+                    {contact.phone}
+                  </a>
+                  <a className="focus-ring inline-flex w-fit items-center gap-3 transition hover:opacity-65" href={contact.fiverr} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink size={20} />
+                    fiverr.com/tallalaamir
+                  </a>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="grid gap-7 lg:pt-9">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <label className="grid gap-3">
+                    <span className="display-text text-3xl text-black sm:text-4xl">Full Name</span>
+                    <input
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                      className="h-14 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
+                      placeholder="Muhammad Tallal Aamir"
+                    />
+                  </label>
+                  <label className="grid gap-3">
+                    <span className="display-text text-3xl text-black sm:text-4xl">Phone Number</span>
+                    <input
+                      value={phone}
+                      onChange={(event) => setPhone(event.target.value)}
+                      type="tel"
+                      className="h-14 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
+                      placeholder={contact.phone}
+                    />
+                  </label>
+                </div>
+
+                <label className="grid gap-3">
+                  <span className="display-text text-3xl text-black sm:text-4xl">Email</span>
+                  <input
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    type="email"
+                    className="h-14 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
+                    placeholder="you@example.com"
+                  />
+                </label>
+
+                <label className="grid gap-3">
+                  <span className="display-text text-3xl text-black sm:text-4xl">Your Message</span>
+                  <textarea
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                    rows={4}
+                    className="min-h-28 resize-none border-0 border-b-2 border-black bg-transparent px-0 py-3 text-lg font-bold leading-7 text-black outline-none placeholder:text-black/38 focus:border-black/60"
+                    placeholder="Tell me about the store, feature, role, or agency project."
+                  />
+                </label>
+
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="submit"
+                    data-cursor="button"
+                    className="focus-ring group inline-flex min-h-12 items-center gap-3 border-b-4 border-black pb-1 text-right font-black uppercase text-black transition hover:gap-5 hover:opacity-70 sm:text-2xl"
+                  >
+                    Send A Message
+                    <ArrowUpRight size={24} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div className="border-b-4 border-black pb-6">
+              <div className="flex flex-col gap-6 text-xs font-black uppercase text-black sm:flex-row sm:items-end sm:justify-between">
+                <p>
+                  Copyright © Muhammad Tallal Aamir 2026
+                  <span className="mt-1 block text-black/58">Senior Shopify Developer / Development Lead</span>
+                </p>
+                <div className="flex flex-wrap gap-x-8 gap-y-3">
+                  {footerLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                      download={link.download ? true : undefined}
+                      className="focus-ring inline-flex items-center gap-2 underline decoration-2 underline-offset-4 transition hover:opacity-60"
+                    >
+                      {link.label}
+                      {link.download ? <Download size={14} /> : link.external ? <ArrowUpRight size={14} /> : null}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <form onSubmit={handleSubmit} className="rounded-[8px] border border-white/12 bg-white/[0.035] p-6 sm:p-8">
-          <div className="grid gap-5 md:grid-cols-2">
-            <label className="grid gap-2 text-sm font-semibold text-cream">
-              Name
-              <input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                className="min-h-12 rounded-[8px] border border-white/12 bg-black/24 px-4 text-base font-normal text-cream outline-none transition placeholder:text-muted focus:border-lime/60"
-                placeholder="Your name"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold text-cream">
-              Email
-              <input
-                type="email"
-                className="min-h-12 rounded-[8px] border border-white/12 bg-black/24 px-4 text-base font-normal text-cream outline-none transition placeholder:text-muted focus:border-lime/60"
-                placeholder="you@example.com"
-              />
-            </label>
-          </div>
-          <label className="mt-5 grid gap-2 text-sm font-semibold text-cream">
-            Project details
-            <textarea
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
-              rows={8}
-              className="resize-none rounded-[8px] border border-white/12 bg-black/24 p-4 text-base font-normal leading-7 text-cream outline-none transition placeholder:text-muted focus:border-lime/60"
-              placeholder="Tell me about the store, feature, role, or agency project."
-            />
-          </label>
-          <button
-            type="submit"
-            className="focus-ring mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-black uppercase !text-black transition hover:bg-shopify [&_*]:!text-black"
-          >
-            Send Inquiry
-            <Send size={17} />
-          </button>
-        </form>
       </div>
     </section>
   );
