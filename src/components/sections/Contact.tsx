@@ -53,12 +53,13 @@ export function Contact() {
         return;
       }
 
-      const expand = mapProgress(value, 0, 0.46);
-      const introOut = mapProgress(value, 0.26, 0.46);
-      const contentIn = mapProgress(value, 0.42, 0.62);
-      const dividerIn = mapProgress(value, 0.54, 0.76);
+      const expand = mapProgress(value, 0, 0.34);
+      const introOut = mapProgress(value, 0.16, 0.32);
+      const contentIn = mapProgress(value, 0.28, 0.48);
+      const dividerIn = mapProgress(value, 0.38, 0.56);
+      const inset = 32 - expand * 32;
 
-      panel.style.clipPath = `inset(${34 - expand * 34}% 0% 0% 0%)`;
+      panel.style.clipPath = `inset(${inset}% 0% ${inset}% 0%)`;
       intro.style.opacity = `${1 - introOut}`;
       intro.style.transform = `translateY(${-150 * introOut}px) scale(${1 - 0.18 * introOut})`;
       content.style.opacity = `${contentIn}`;
@@ -83,7 +84,7 @@ export function Contact() {
 
     const tick = () => {
       updateProgress();
-      current += (target - current) * 0.16;
+      current += (target - current) * 0.24;
 
       if (Math.abs(target - current) < 0.001) {
         current = target;
@@ -121,7 +122,7 @@ export function Contact() {
   };
 
   return (
-    <section ref={sectionRef} id="contact" className="contact-reveal relative z-50 bg-lime text-black lg:min-h-[235svh] lg:bg-black">
+    <section ref={sectionRef} id="contact" className="contact-reveal relative z-50 bg-lime text-black lg:min-h-[210svh] lg:bg-black">
       <div className="relative min-h-[100svh] overflow-visible bg-lime lg:sticky lg:top-0 lg:overflow-hidden lg:bg-black">
         <div
           ref={panelRef}
@@ -131,16 +132,16 @@ export function Contact() {
             ref={introRef}
             className="contact-intro pointer-events-none absolute inset-0 hidden items-center justify-center px-4 lg:flex"
           >
-            <div className="flex w-full items-center justify-center gap-[3vw] whitespace-nowrap">
-              <span className="display-text text-[clamp(4.5rem,17vw,20rem)] text-black">LET&apos;S</span>
-              <span className="display-text rotate-12 text-[clamp(3.7rem,9vw,11rem)] leading-none text-[#ff5a1f]">*</span>
-              <span className="display-text text-[clamp(4.5rem,17vw,20rem)] text-black">TALK</span>
+            <div className="flex w-full items-center justify-center gap-[3.2vw] whitespace-nowrap">
+              <span className="display-text text-[clamp(5rem,14vw,16rem)] text-black">LET&apos;S</span>
+              <span className="contact-burst display-text inline-block text-[clamp(5.4rem,10vw,11.5rem)] leading-none text-[#ff5a1f]">*</span>
+              <span className="display-text text-[clamp(5rem,14vw,16rem)] text-black">TALK</span>
             </div>
           </div>
 
           <div
             ref={contentRef}
-            className="contact-content relative z-10 flex min-h-[100svh] flex-col justify-between overflow-visible px-5 py-7 sm:px-8 sm:py-10 lg:overflow-y-auto lg:px-14 lg:py-12"
+            className="contact-content relative z-10 flex min-h-[100svh] flex-col justify-between overflow-visible px-5 py-8 sm:px-8 sm:py-12 lg:overflow-y-auto lg:px-16 lg:py-16 xl:px-20"
           >
             <div
               ref={dividerRef}
@@ -148,15 +149,15 @@ export function Contact() {
               className="contact-divider h-1 origin-left bg-black"
             />
 
-            <div className="grid gap-10 py-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-16 xl:gap-24">
+            <div className="grid gap-14 py-12 lg:grid-cols-[0.76fr_1.24fr] lg:items-start lg:gap-24 lg:py-16 xl:gap-32">
               <div>
                 <p className="font-mono text-xs font-black uppercase tracking-[0.24em] text-black/68">09 / Contact</p>
-                <h2 className="display-text mt-5 max-w-xl text-[clamp(4.2rem,10vw,10.5rem)] text-black">Get In Touch</h2>
-                <p className="mt-7 max-w-md text-base font-bold leading-7 text-black/72 sm:text-lg">
+                <h2 className="display-text mt-7 max-w-xl text-[clamp(4.2rem,9vw,9.4rem)] text-black">Get In Touch</h2>
+                <p className="mt-9 max-w-lg text-base font-bold leading-8 text-black/72 sm:text-lg">
                   Open to remote Shopify roles, agency contracts, freelance builds, and long-term e-commerce development partnerships.
                 </p>
 
-                <div className="mt-9 grid gap-4 text-lg font-black uppercase text-black sm:text-xl">
+                <div className="mt-12 grid gap-5 text-lg font-black uppercase text-black sm:text-xl">
                   <a className="focus-ring inline-flex w-fit items-center gap-3 transition hover:opacity-65" href={`mailto:${contact.email}`}>
                     <Mail size={20} />
                     {contact.email}
@@ -172,14 +173,14 @@ export function Contact() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="grid gap-7 lg:pt-9">
-                <div className="grid gap-6 md:grid-cols-2">
+              <form onSubmit={handleSubmit} className="grid gap-9 lg:pt-14">
+                <div className="grid gap-8 md:grid-cols-2">
                   <label className="grid gap-3">
                     <span className="display-text text-3xl text-black sm:text-4xl">Full Name</span>
                     <input
                       value={name}
                       onChange={(event) => setName(event.target.value)}
-                      className="h-14 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
+                      className="h-16 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
                       placeholder="Muhammad Tallal Aamir"
                     />
                   </label>
@@ -189,7 +190,7 @@ export function Contact() {
                       value={phone}
                       onChange={(event) => setPhone(event.target.value)}
                       type="tel"
-                      className="h-14 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
+                      className="h-16 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
                       placeholder={contact.phone}
                     />
                   </label>
@@ -201,7 +202,7 @@ export function Contact() {
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     type="email"
-                    className="h-14 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
+                    className="h-16 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60"
                     placeholder="you@example.com"
                   />
                 </label>
@@ -233,7 +234,7 @@ export function Contact() {
             <div className="border-b-4 border-black pb-6">
               <div className="flex flex-col gap-6 text-xs font-black uppercase text-black sm:flex-row sm:items-end sm:justify-between">
                 <p>
-                  Copyright © Muhammad Tallal Aamir 2026
+                  Copyright (c) Muhammad Tallal Aamir 2026
                   <span className="mt-1 block text-black/58">Senior Shopify Developer / Development Lead</span>
                 </p>
                 <div className="flex flex-wrap gap-x-8 gap-y-3">

@@ -275,6 +275,11 @@ button {
   transform: scaleX(1);
 }
 
+.contact-burst {
+  transform-origin: center;
+  animation: contact-burst-pulse 1.45s ease-in-out infinite;
+}
+
 @supports (animation-timeline: view()) {
   @media (min-width: 1024px) {
     .contact-reveal {
@@ -283,10 +288,10 @@ button {
     }
 
     .contact-panel {
-      clip-path: inset(34% 0% 0% 0%);
+      clip-path: inset(32% 0% 32% 0%);
       animation: contact-panel-expand linear both;
       animation-timeline: --contact-reveal;
-      animation-range: entry 8% cover 46%;
+      animation-range: cover 35% cover 48%;
     }
 
     .contact-intro {
@@ -294,7 +299,7 @@ button {
       transform: translateY(0) scale(1);
       animation: contact-intro-out linear both;
       animation-timeline: --contact-reveal;
-      animation-range: entry 18% cover 50%;
+      animation-range: cover 36% cover 46%;
     }
 
     .contact-content {
@@ -302,14 +307,14 @@ button {
       transform: translateY(110px);
       animation: contact-content-in linear both;
       animation-timeline: --contact-reveal;
-      animation-range: cover 44% cover 64%;
+      animation-range: cover 44% cover 58%;
     }
 
     .contact-divider {
       transform: scaleX(0);
       animation: contact-divider-in linear both;
       animation-timeline: --contact-reveal;
-      animation-range: cover 56% cover 76%;
+      animation-range: cover 48% cover 62%;
     }
   }
 }
@@ -325,10 +330,24 @@ button {
 
 @keyframes contact-panel-expand {
   from {
-    clip-path: inset(34% 0% 0% 0%);
+    clip-path: inset(32% 0% 32% 0%);
   }
   to {
     clip-path: inset(0% 0% 0% 0%);
+  }
+}
+
+@keyframes contact-burst-pulse {
+  0%,
+  100% {
+    rotate: 8deg;
+    scale: 1;
+    filter: drop-shadow(0 0 0 rgba(255, 90, 31, 0));
+  }
+  50% {
+    rotate: 28deg;
+    scale: 1.16;
+    filter: drop-shadow(0 0 22px rgba(255, 90, 31, 0.38));
   }
 }
 
