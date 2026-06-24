@@ -11,7 +11,7 @@ interface TimelineItemProps {
 export function TimelineItem({ item, index }: TimelineItemProps) {
   return (
     <motion.article
-      className="relative z-10 grid gap-5 pl-9 md:grid-cols-[0.72fr_1fr] md:gap-10 md:pl-12"
+      className="relative z-10 grid h-full gap-5 pl-9 md:grid-cols-[0.72fr_1fr] md:gap-10 md:pl-12"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}

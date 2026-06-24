@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { CursorFollower } from "@/components/ui/CursorFollower";
+import { FloatingContactCTA } from "@/components/ui/FloatingContactCTA";
 import { FloatingFiverrCTA } from "@/components/ui/FloatingFiverrCTA";
 import "./globals.css";
 
@@ -57,13 +58,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <SmoothScroll />
         <CursorFollower />
         <div className="site-ambient" aria-hidden="true" />
         <Header />
         {children}
+        <FloatingContactCTA />
         <FloatingFiverrCTA />
       </body>
     </html>

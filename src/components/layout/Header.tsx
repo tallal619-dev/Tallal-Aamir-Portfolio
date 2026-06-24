@@ -5,6 +5,7 @@ import { ArrowUpRight, Download, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { contact, navItems } from "@/data/portfolio";
 import { StaggeredMenu } from "@/components/react-bits/StaggeredMenu";
+import { FiverrIcon } from "@/components/ui/FiverrIcon";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -88,9 +89,10 @@ export function Header() {
             data-cursor="button"
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-ring inline-flex min-h-12 items-center gap-2 rounded-full bg-lime px-5 py-3 text-xs font-black uppercase !text-black shadow-[0_18px_70px_rgba(0,0,0,0.16)] transition hover:bg-shopify [&_*]:!text-black"
+            aria-label="Open Fiverr profile"
+            className="focus-ring inline-flex min-h-12 items-center gap-2 rounded-full bg-lime px-4 py-3 text-xs font-black uppercase !text-black shadow-[0_18px_70px_rgba(0,0,0,0.16)] transition hover:bg-shopify [&_*]:!text-black"
           >
-            Fiverr
+            <FiverrIcon className="size-6" />
             <ArrowUpRight size={15} />
           </a>
         </div>

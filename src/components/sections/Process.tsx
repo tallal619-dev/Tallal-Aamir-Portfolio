@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { processSteps } from "@/data/portfolio";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Process() {
@@ -14,11 +15,16 @@ export function Process() {
         copy="A calm, structured workflow for client projects, agency tasks, and team environments where clarity matters as much as code."
       />
 
-      <div className="mt-14 flex gap-4 overflow-x-auto pb-4 lg:grid lg:grid-cols-5 lg:overflow-visible lg:pb-0">
+      <MobileCarousel
+        ariaLabel="Work process steps"
+        className="mt-14"
+        desktopClassName="md:grid-cols-3 lg:grid-cols-5"
+        itemClassName="min-w-[min(82vw,20rem)]"
+      >
         {processSteps.map((step, index) => (
           <motion.article
             key={step.title}
-            className="min-h-[310px] min-w-[260px] rounded-[8px] border border-white/12 bg-white/[0.035] p-6 lg:min-w-0"
+            className="h-full min-h-[310px] rounded-[8px] border border-white/12 bg-white/[0.035] p-6"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
@@ -29,7 +35,7 @@ export function Process() {
             <p className="mt-4 text-sm leading-7 text-muted">{step.description}</p>
           </motion.article>
         ))}
-      </div>
+      </MobileCarousel>
     </section>
   );
 }

@@ -4,7 +4,9 @@ import { motion } from "motion/react";
 import { ArrowUpRight, BadgeCheck, MessageCircle, Star } from "lucide-react";
 import { contact, fiverrReviewBreakdown, fiverrReviewHighlights, fiverrReviewStats } from "@/data/portfolio";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { FiverrIcon } from "@/components/ui/FiverrIcon";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SpotlightCard } from "@/components/react-bits/SpotlightCard";
 
 const stars = Array.from({ length: 5 }, (_, index) => index);
@@ -74,23 +76,31 @@ export function FiverrReviews() {
 
               <div className="mt-8">
                 <MagneticButton href={contact.fiverr} target="_blank" className="w-full justify-between sm:w-auto">
-                  Read Reviews On Fiverr
+                  <span className="inline-flex items-center gap-2">
+                    <FiverrIcon className="size-5" />
+                    Read Reviews
+                  </span>
                 </MagneticButton>
               </div>
             </div>
           </motion.div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <MobileCarousel
+            ariaLabel="Fiverr review highlights"
+            desktopClassName="md:grid-cols-2"
+            itemClassName="min-w-[min(86vw,23rem)]"
+          >
             {fiverrReviewHighlights.map((review, index) => (
               <motion.div
                 key={review.focus}
+                className="h-full"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.55, delay: Math.min(index * 0.06, 0.24) }}
               >
                 <SpotlightCard className="h-full">
-                  <article className="flex min-h-[250px] flex-col p-6">
+                  <article className="flex h-full min-h-[250px] flex-col p-6">
                     <div className="flex items-center justify-between gap-4">
                       <span className="rounded-full border border-lime/24 bg-lime/10 px-3 py-1 text-xs font-black uppercase text-lime">
                         {review.focus}
@@ -106,7 +116,7 @@ export function FiverrReviews() {
                 </SpotlightCard>
               </motion.div>
             ))}
-          </div>
+          </MobileCarousel>
         </div>
       </div>
     </section>

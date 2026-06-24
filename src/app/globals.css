@@ -1,9 +1,10 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource/bebas-neue/latin-400.css";
+@import "@fontsource/cormorant-garamond/latin-600.css";
+@import "@fontsource/cormorant-garamond/latin-600-italic.css";
 @import "tailwindcss";
 
 @theme inline {
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-serif: var(--font-serif);
   --color-ink: #070707;
   --color-surface: #111111;
   --color-cream: #f5f1e8;
@@ -15,9 +16,12 @@
 
 :root {
   color-scheme: dark;
-  --font-display: Impact, Haettenschweiler, "Arial Narrow", "Franklin Gothic Condensed", sans-serif;
-  --font-body: "Segoe UI", Arial, Helvetica, sans-serif;
-  --font-serif: Georgia, "Times New Roman", serif;
+  --font-display-fallback: Impact, Haettenschweiler, "Arial Narrow", "Franklin Gothic Condensed", sans-serif;
+  --font-body-fallback: "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-serif-fallback: Georgia, "Times New Roman", serif;
+  --font-display: "Bebas Neue", var(--font-display-fallback);
+  --font-body: "Inter Variable", var(--font-body-fallback);
+  --font-serif: "Cormorant Garamond", var(--font-serif-fallback);
   --background: #070707;
   --surface: #111111;
   --text: #f5f1e8;
@@ -46,7 +50,8 @@ body {
     radial-gradient(circle at 12% 42%, rgba(0, 61, 43, 0.32), transparent 34rem),
     linear-gradient(180deg, #070707 0%, #0a0a0a 45%, #050505 100%);
   color: var(--text);
-  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  font-family: var(--font-body, var(--font-body-fallback));
+  font-synthesis: none;
   text-rendering: geometricPrecision;
 }
 
@@ -132,7 +137,7 @@ button {
 .shuffle-parent {
   display: inline-block;
   visibility: hidden;
-  font-family: var(--font-display), Impact, sans-serif;
+  font-family: var(--font-display, var(--font-display-fallback));
   line-height: 1;
   text-transform: uppercase;
   white-space: normal;
@@ -168,7 +173,7 @@ button {
 }
 
 .display-text {
-  font-family: var(--font-display), Impact, sans-serif;
+  font-family: var(--font-display, var(--font-display-fallback));
   font-weight: 400;
   line-height: 0.93;
   letter-spacing: 0;
@@ -176,7 +181,7 @@ button {
 }
 
 .serif-accent {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-serif, var(--font-serif-fallback));
   font-style: italic;
   text-transform: none;
 }
@@ -255,6 +260,16 @@ button {
 .modal-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 999px;
   background: rgba(215, 255, 74, 0.45);
+}
+
+.no-scrollbar {
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .contact-panel {

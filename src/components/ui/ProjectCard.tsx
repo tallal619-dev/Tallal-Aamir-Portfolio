@@ -59,6 +59,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <>
       <motion.div
+        className="h-full"
         initial={{ opacity: 0, y: 34 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.18 }}
@@ -103,7 +104,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                 <button
                   type="button"
                   onClick={() => setOpen(true)}
-                  className="focus-ring mt-auto inline-flex min-h-12 items-center justify-between rounded-full border border-white/12 px-5 py-3 text-sm font-black uppercase text-cream transition hover:border-lime/50 hover:bg-lime/10"
+                  className="focus-ring mt-auto inline-flex min-h-12 w-full items-center justify-between rounded-full border border-white/12 px-5 py-3 text-sm font-black uppercase text-cream transition hover:border-lime/50 hover:bg-lime/10"
                   aria-label={`View case study for ${project.title}`}
                 >
                   View Case Study

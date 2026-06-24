@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Database, Gauge, LayoutTemplate, PlugZap, ShoppingCart, SlidersHorizontal } from "lucide-react";
 import { expertiseCards } from "@/data/portfolio";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SpotlightCard } from "@/components/react-bits/SpotlightCard";
 import { TiltCard } from "@/components/react-bits/TiltCard";
@@ -26,13 +27,19 @@ export function Expertise() {
         copy="Custom storefront architecture, conversion-led UX, and clean engineering habits for brands, agencies, and in-house commerce teams."
       />
 
-      <div className="mt-14 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <MobileCarousel
+        ariaLabel="Shopify expertise areas"
+        className="mt-14"
+        desktopClassName="md:grid-cols-2 xl:grid-cols-3"
+        itemClassName="min-w-[min(86vw,23rem)]"
+      >
         {expertiseCards.map((card, index) => {
           const Icon = iconMap[card.icon];
 
           return (
             <motion.div
               key={card.title}
+              className="h-full"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -40,7 +47,7 @@ export function Expertise() {
             >
               <TiltCard className="h-full">
                 <SpotlightCard className="h-full">
-                  <article className="flex min-h-[300px] flex-col p-6 sm:p-7">
+                  <article className="flex h-full min-h-[300px] flex-col p-6 sm:p-7">
                     <div className="mb-8 grid size-14 place-items-center rounded-[8px] border border-lime/24 bg-lime/[0.08] text-lime">
                       <Icon size={25} />
                     </div>
@@ -55,7 +62,7 @@ export function Expertise() {
             </motion.div>
           );
         })}
-      </div>
+      </MobileCarousel>
     </section>
   );
 }

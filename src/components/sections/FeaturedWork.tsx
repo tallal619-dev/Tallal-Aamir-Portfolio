@@ -1,5 +1,6 @@
 import { liveProjects, projects } from "@/data/portfolio";
 import { LiveProjectCard } from "@/components/ui/LiveProjectCard";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -23,11 +24,17 @@ export function FeaturedWork() {
           copy="Storefronts, product experiences, agency builds, and performance-focused improvements that show both client impact and senior development judgment."
         />
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <MobileCarousel
+          ariaLabel="Live Shopify projects"
+          className="mt-14"
+          desktopClassName="md:grid-cols-2 xl:grid-cols-3"
+          trackClassName="gap-5"
+          itemClassName="min-w-[min(88vw,25rem)]"
+        >
           {liveProjects.map((project, index) => (
             <LiveProjectCard key={project.title} project={project} index={index} />
           ))}
-        </div>
+        </MobileCarousel>
 
         <SectionHeading
           index="03"
@@ -37,11 +44,17 @@ export function FeaturedWork() {
           className="mt-24 sm:mt-32"
         />
 
-        <div id="case-studies" className="mt-14 grid gap-5 lg:grid-cols-2">
+        <MobileCarousel
+          ariaLabel="Deep-dive case studies"
+          className="mt-14"
+          desktopClassName="md:grid-cols-2"
+          trackClassName="gap-5"
+          itemClassName="min-w-[min(88vw,25rem)]"
+        >
           {deepDiveProjects.map((project, index) => (
             <ProjectCard key={project.title} project={project} index={index} />
           ))}
-        </div>
+        </MobileCarousel>
       </div>
     </section>
   );

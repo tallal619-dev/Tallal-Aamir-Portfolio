@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { skillGroups } from "@/data/portfolio";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SkillBadge } from "@/components/ui/SkillBadge";
 
@@ -16,11 +17,17 @@ export function ShopifyStack() {
           copy="Shopify is my strongest lane, but my resume also covers frontend engineering, APIs, full-stack product work, databases, cloud tools, mobile frameworks, and teaching Python."
         />
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-2">
+        <MobileCarousel
+          ariaLabel="Technical skill groups"
+          className="mt-14"
+          desktopClassName="md:grid-cols-2"
+          trackClassName="gap-5"
+          itemClassName="min-w-[min(88vw,26rem)]"
+        >
           {skillGroups.map((group, index) => (
             <motion.article
               key={group.title}
-              className="rounded-[8px] border border-white/12 bg-white/[0.035] p-6 sm:p-7"
+              className="h-full rounded-[8px] border border-white/12 bg-white/[0.035] p-6 sm:p-7"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -34,7 +41,7 @@ export function ShopifyStack() {
               </div>
             </motion.article>
           ))}
-        </div>
+        </MobileCarousel>
       </div>
     </section>
   );

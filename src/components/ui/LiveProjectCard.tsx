@@ -45,7 +45,7 @@ export function LiveProjectCard({ project, index }: LiveProjectCardProps) {
     >
       <TiltCard className="h-full">
         <SpotlightCard className="group/live h-full">
-          <article className="relative grid min-h-[500px] grid-rows-[220px_1fr] overflow-hidden">
+          <article className="relative grid h-full min-h-[500px] grid-rows-[220px_1fr] overflow-hidden">
             <div className="relative overflow-hidden border-b border-white/10 bg-[#07100c]">
               <Image
                 src={project.image}
