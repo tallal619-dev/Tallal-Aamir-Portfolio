@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import type { Variants } from "motion/react";
 import { ArrowUpRight, Download, Mail, MessageCircle } from "lucide-react";
 import { contact } from "@/data/portfolio";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
@@ -13,6 +14,26 @@ const footerLinks = [
   { label: "Email", href: `mailto:${contact.email}` },
   { label: "Top", href: "#top" }
 ];
+
+const contactFieldVariants: Variants = {
+  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+const contactFormVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.085,
+      delayChildren: 0.08
+    }
+  }
+};
 
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -224,7 +245,7 @@ export function Contact() {
 
           <div
             ref={contentRef}
-            className="contact-content relative z-10 flex min-h-[100svh] flex-col justify-between overflow-visible px-5 py-8 sm:px-8 sm:py-12 lg:grid lg:h-[100svh] lg:min-h-0 lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:gap-4 lg:overflow-hidden lg:px-10 lg:py-6 xl:px-14 xl:py-8"
+            className="contact-content relative z-10 flex min-h-[100svh] flex-col justify-between overflow-visible px-5 py-8 sm:px-8 sm:py-12 lg:grid lg:h-[100svh] lg:min-h-0 lg:grid-cols-[minmax(0,1fr)] lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:gap-4 lg:overflow-hidden lg:px-10 lg:py-6 xl:px-14 xl:py-8"
           >
             <div
               ref={dividerRef}
@@ -239,7 +260,12 @@ export function Contact() {
               viewport={{ once: true, amount: 0.16 }}
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div>
+              <motion.div
+                initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.24 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              >
                 <p className="font-mono text-xs font-black uppercase tracking-[0.24em] text-black/68">09 / Contact</p>
                 <h2 className="display-text mt-7 max-w-xl text-[clamp(4.2rem,9vw,9.4rem)] text-black lg:mt-5 lg:text-[clamp(3.9rem,6.4vw,7.2rem)]">Get In Touch</h2>
                 <p className="mt-9 max-w-lg text-base font-bold leading-8 text-black/72 sm:text-lg lg:mt-5 lg:text-base lg:leading-6">
@@ -260,17 +286,24 @@ export function Contact() {
                     fiverr.com/tallalaamir
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
-              <form onSubmit={handleSubmit} className="grid gap-9 lg:gap-4 lg:pt-0">
-                <div className="grid gap-8 md:grid-cols-2 lg:gap-5">
+              <motion.form
+                onSubmit={handleSubmit}
+                className="grid gap-9 lg:gap-4 lg:pt-0"
+                variants={contactFormVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.18 }}
+              >
+                <motion.div className="grid gap-8 md:grid-cols-2 lg:gap-5" variants={contactFieldVariants}>
                   <label className="grid gap-3 lg:gap-2">
                     <span className="display-text text-3xl text-black sm:text-4xl lg:text-[1.7rem]">Full Name</span>
                     <input
                       value={name}
                       onChange={(event) => setName(event.target.value)}
                       className="h-16 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60 lg:h-10 lg:text-base"
-                      placeholder="Muhammad Tallal Aamir"
+                      placeholder="Your Name/Agency Name"
                     />
                   </label>
                   <label className="grid gap-3 lg:gap-2">
@@ -280,12 +313,12 @@ export function Contact() {
                       onChange={(event) => setPhone(event.target.value)}
                       type="tel"
                       className="h-16 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60 lg:h-10 lg:text-base"
-                      placeholder={contact.phone}
+                      placeholder="Your Contact Number"
                     />
                   </label>
-                </div>
+                </motion.div>
 
-                <label className="grid gap-3 lg:gap-2">
+                <motion.label className="grid gap-3 lg:gap-2" variants={contactFieldVariants}>
                   <span className="display-text text-3xl text-black sm:text-4xl lg:text-[1.7rem]">Email</span>
                   <input
                     value={email}
@@ -294,9 +327,9 @@ export function Contact() {
                     className="h-16 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60 lg:h-10 lg:text-base"
                     placeholder="you@example.com"
                   />
-                </label>
+                </motion.label>
 
-                <label className="grid gap-3 lg:gap-2">
+                <motion.label className="grid gap-3 lg:gap-2" variants={contactFieldVariants}>
                   <span className="display-text text-3xl text-black sm:text-4xl lg:text-[1.7rem]">Your Message</span>
                   <textarea
                     value={message}
@@ -305,9 +338,9 @@ export function Contact() {
                     className="min-h-28 resize-none border-0 border-b-2 border-black bg-transparent px-0 py-3 text-lg font-bold leading-7 text-black outline-none placeholder:text-black/38 focus:border-black/60 lg:min-h-16 lg:text-base lg:leading-6"
                     placeholder="Tell me about the store, feature, role, or agency project."
                   />
-                </label>
+                </motion.label>
 
-                <div className="flex justify-end pt-2 lg:pt-0">
+                <motion.div className="flex justify-end pt-2 lg:pt-0" variants={contactFieldVariants}>
                   <button
                     type="submit"
                     data-cursor="button"
@@ -316,8 +349,8 @@ export function Contact() {
                     Send A Message
                     <ArrowUpRight size={24} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </button>
-                </div>
-              </form>
+                </motion.div>
+              </motion.form>
             </motion.div>
 
             <motion.div
