@@ -3,15 +3,14 @@
 import type { MouseEvent } from "react";
 import { useRef, useState } from "react";
 import { motion } from "motion/react";
-import { contact } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import LiquidEther from "@/components/react-bits/LiquidEther";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-
-const liquidEtherColors = ["#D7FF4A", "#ffffff", "#a5cf97"];
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), Math.max(min, max));
 
 export function Hero() {
+  const { content, mode } = usePortfolioMode();
   const heroRef = useRef<HTMLElement>(null);
   const [nameTag, setNameTag] = useState({ x: 24, y: 24, active: false });
 
@@ -42,10 +41,11 @@ export function Hero() {
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       className="relative isolate flex min-h-[94svh] items-center overflow-hidden border-b border-white/10 bg-[#050806] px-0 pb-14 pt-28 text-cream sm:pt-32"
+      style={{ backgroundColor: content.heroBackground }}
     >
       <div aria-hidden="true" className="absolute inset-0">
         <LiquidEther
-          colors={liquidEtherColors}
+          colors={content.heroColors}
           mouseForce={20}
           cursorSize={100}
           isViscous={false}
@@ -70,43 +70,49 @@ export function Hero() {
         animate={{ opacity: nameTag.active ? 1 : 0, scale: nameTag.active ? 1 : 0.96 }}
         transition={{ duration: 0.16 }}
       >
-        Muhammad Tallal Aamir
+        {content.heroNameTag}
       </motion.div>
 
       <div className="section-shell relative z-10">
         <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center text-center">
           <motion.div
+            key={`${mode}-hero-badge`}
             className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/14 bg-white/[0.07] px-4 py-2 shadow-[0_16px_60px_rgba(0,0,0,0.24)] backdrop-blur-xl"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="size-2 rounded-full bg-lime shadow-[0_0_18px_rgba(215,255,74,0.9)]" />
-            <span className="text-[0.68rem] font-black uppercase text-cream/66 sm:text-xs">Senior Shopify Developer / Development Lead</span>
+            <span
+              className="size-2 rounded-full bg-lime"
+              style={{ boxShadow: `0 0 18px ${mode === "fullStack" ? "rgba(56,189,248,0.9)" : "rgba(215,255,74,0.9)"}` }}
+            />
+            <span className="text-[0.68rem] font-black uppercase text-cream/66 sm:text-xs">{content.heroBadge}</span>
           </motion.div>
 
           <h1 className="display-text max-w-5xl text-balance text-[4.15rem] text-cream sm:text-[5.8rem] md:text-[6.9rem] lg:text-[8rem]">
             <span className="block overflow-hidden">
               <motion.span
+                key={`${mode}-hero-first`}
                 className="block"
                 initial={{ y: "112%" }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.76, ease: [0.22, 1, 0.36, 1] }}
               >
-                Build fast.
+                {content.heroFirstLine}
               </motion.span>
             </span>
             {" "}
             <span className="block overflow-hidden">
               <motion.span
+                key={`${mode}-hero-second`}
                 className="block"
                 initial={{ y: "112%" }}
                 animate={{ y: 0 }}
                 transition={{ delay: 0.08, duration: 0.76, ease: [0.22, 1, 0.36, 1] }}
               >
-                Lead calmly.{" "}
+                {content.heroSecondLead}{" "}
                 <span className="relative inline-block text-cream">
-                  <span className="relative z-10">Ship clean.</span>
+                  <span className="relative z-10">{content.heroHighlight}</span>
                   <span className="absolute inset-x-[-0.06em] bottom-[0.06em] z-0 h-[0.2em] rounded-[3px] bg-lime" />
                 </span>
               </motion.span>
@@ -114,12 +120,13 @@ export function Hero() {
           </h1>
 
           <motion.p
+            key={`${mode}-hero-copy`}
             className="mt-6 max-w-2xl text-pretty text-base leading-7 text-cream/68 sm:text-lg md:text-xl"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.32, duration: 0.62 }}
           >
-            Senior Shopify developer and full-stack commerce engineer for brands, agencies, and hiring teams that need polished storefronts, custom product flows, and dependable delivery.
+            {content.heroCopy}
           </motion.p>
 
           <motion.div
@@ -128,7 +135,10 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.52, duration: 0.58 }}
           >
-            <MagneticButton href="#contact" className="w-full !bg-lime !text-black hover:!bg-shopify sm:w-auto">
+            <MagneticButton
+              href="#contact"
+              className={mode === "fullStack" ? "w-full !bg-[#38bdf8] !text-black hover:!bg-[#60a5fa] sm:w-auto" : "w-full !bg-lime !text-black hover:!bg-shopify sm:w-auto"}
+            >
               Let&apos;s Work Together
             </MagneticButton>
             <MagneticButton
@@ -139,7 +149,7 @@ export function Hero() {
               View Work
             </MagneticButton>
             <MagneticButton
-              href={contact.resume}
+              href={content.resume}
               variant="ghost"
               className="col-span-2 w-full !text-cream/66 hover:!text-lime sm:w-auto"
               download

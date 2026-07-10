@@ -4,12 +4,15 @@ import { useMotionValueEvent, useScroll } from "motion/react";
 import { ArrowUpRight, Download, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { contact, navItems } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { StaggeredMenu } from "@/components/react-bits/StaggeredMenu";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
+import { ModeSwitch } from "@/components/ui/ModeSwitch";
 import { cn } from "@/lib/utils";
 
 export function Header() {
   const { scrollY } = useScroll();
+  const { content } = usePortfolioMode();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -46,7 +49,10 @@ export function Header() {
           >
             TA
           </span>
-          <span className="hidden text-xs font-black uppercase text-cream sm:block">Tallal Aamir</span>
+          <span className="hidden text-xs font-black uppercase text-cream sm:block">
+            Tallal Aamir
+            <span className="block text-[0.58rem] text-cream/48">{content.headerRole}</span>
+          </span>
         </a>
 
         <div
@@ -70,8 +76,9 @@ export function Header() {
         </div>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <ModeSwitch />
           <a
-            href={contact.resume}
+            href={content.resume}
             data-cursor="button"
             download
             className={cn(
@@ -90,29 +97,32 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open Fiverr profile"
-            className="focus-ring inline-flex min-h-12 items-center gap-2 rounded-full bg-lime px-4 py-3 text-xs font-black uppercase !text-black shadow-[0_18px_70px_rgba(0,0,0,0.16)] transition hover:bg-shopify [&_*]:!text-black"
+            className="focus-ring inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1ABB6C] px-4 py-3 text-xs font-black uppercase !text-white shadow-[0_18px_70px_rgba(0,0,0,0.16)] transition hover:bg-[#159f5b] [&_*]:!text-white"
           >
             <FiverrIcon className="size-6" />
             <ArrowUpRight size={15} />
           </a>
         </div>
 
-        <button
-          type="button"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-          className={cn(
-            "focus-ring relative z-[95] grid size-12 place-items-center rounded-full border shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl transition lg:hidden",
-            menuOpen
-              ? "border-white/12 bg-white/10 text-cream"
-              : scrolled
-                ? "border-white/12 bg-[#070707]/78 text-cream"
-                : "border-white/12 bg-[#070707]/64 text-cream"
-          )}
-        >
-          {menuOpen ? <X size={21} /> : <Menu size={21} />}
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <ModeSwitch compact />
+          <button
+            type="button"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+            className={cn(
+              "focus-ring relative z-[95] grid size-12 place-items-center rounded-full border shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl transition",
+              menuOpen
+                ? "border-white/12 bg-white/10 text-cream"
+                : scrolled
+                  ? "border-white/12 bg-[#070707]/78 text-cream"
+                  : "border-white/12 bg-[#070707]/64 text-cream"
+            )}
+          >
+            {menuOpen ? <X size={21} /> : <Menu size={21} />}
+          </button>
+        </div>
       </nav>
 
       <StaggeredMenu open={menuOpen} onClose={closeMenu} />

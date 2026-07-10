@@ -1,18 +1,20 @@
 "use client";
 
 import { motion } from "motion/react";
-import { processSteps } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Process() {
+  const { content } = usePortfolioMode();
+
   return (
     <section id="process" className="section-shell py-24 sm:py-32">
       <SectionHeading
         index="06"
-        eyebrow="Process"
-        title="How I Move Work From Brief To Launch"
-        copy="A calm, structured workflow for client projects, agency tasks, and team environments where clarity matters as much as code."
+        eyebrow={content.processHeading.eyebrow}
+        title={content.processHeading.title}
+        copy={content.processHeading.copy}
       />
 
       <MobileCarousel
@@ -21,7 +23,7 @@ export function Process() {
         desktopClassName="md:grid-cols-3 lg:grid-cols-5"
         itemClassName="min-w-[min(82vw,20rem)]"
       >
-        {processSteps.map((step, index) => (
+        {content.processSteps.map((step, index) => (
           <motion.article
             key={step.title}
             className="h-full min-h-[310px] rounded-[8px] border border-white/12 bg-white/[0.035] p-6"

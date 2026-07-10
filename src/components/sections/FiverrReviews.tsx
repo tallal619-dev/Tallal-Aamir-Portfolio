@@ -2,24 +2,28 @@
 
 import { motion } from "motion/react";
 import { ArrowUpRight, BadgeCheck, MessageCircle, Star } from "lucide-react";
-import { contact, fiverrReviewBreakdown, fiverrReviewHighlights, fiverrReviewStats } from "@/data/portfolio";
+import { contact, fiverrReviewBreakdown, fiverrReviewStats } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SpotlightCard } from "@/components/react-bits/SpotlightCard";
+import { cn } from "@/lib/utils";
 
 const stars = Array.from({ length: 5 }, (_, index) => index);
 
 export function FiverrReviews() {
+  const { content, mode } = usePortfolioMode();
+
   return (
-    <section id="reviews" className="overflow-hidden border-y border-lime/10 bg-[#071008] py-24 sm:py-32">
+    <section id="reviews" className={cn("overflow-hidden border-y border-lime/10 py-24 sm:py-32", mode === "fullStack" ? "bg-[#050b16]" : "bg-[#071008]")}>
       <div className="section-shell">
         <SectionHeading
           index="08"
-          eyebrow="Fiverr reviews"
-          title="Proof From Real Client Delivery"
-          copy="A public Fiverr profile snapshot for clients, agencies, and hiring teams who want proof beyond the portfolio visuals."
+          eyebrow={content.reviewsHeading.eyebrow}
+          title={content.reviewsHeading.title}
+          copy={content.reviewsHeading.copy}
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
@@ -75,7 +79,11 @@ export function FiverrReviews() {
               </div>
 
               <div className="mt-8">
-                <MagneticButton href={contact.fiverr} target="_blank" className="w-full justify-between sm:w-auto">
+                <MagneticButton
+                  href={contact.fiverr}
+                  target="_blank"
+                  className="w-full justify-between !bg-[#1ABB6C] !text-white hover:!bg-[#159f5b] [&_*]:!text-white sm:w-auto"
+                >
                   <span className="inline-flex items-center gap-2">
                     <FiverrIcon className="size-5" />
                     Read Reviews
@@ -90,7 +98,7 @@ export function FiverrReviews() {
             desktopClassName="md:grid-cols-2"
             itemClassName="min-w-[min(86vw,23rem)]"
           >
-            {fiverrReviewHighlights.map((review, index) => (
+            {content.reviewHighlights.map((review, index) => (
               <motion.div
                 key={review.focus}
                 className="h-full"

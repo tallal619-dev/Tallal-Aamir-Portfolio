@@ -1,20 +1,26 @@
 "use client";
 
 import { motion } from "motion/react";
-import { skillGroups } from "@/data/portfolio";
+import { fullStackSkillGroups, skillGroups } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SkillBadge } from "@/components/ui/SkillBadge";
+import { cn } from "@/lib/utils";
 
 export function ShopifyStack() {
+  const { content, mode } = usePortfolioMode();
+  const availableSkillGroups = mode === "fullStack" ? fullStackSkillGroups : skillGroups;
+  const orderedSkillGroups = content.skillGroupOrder.flatMap((title) => availableSkillGroups.filter((group) => group.title === title));
+
   return (
-    <section className="border-y border-white/10 bg-[#0a0f0b]/56 py-24 sm:py-32">
+    <section className={cn("border-y border-white/10 py-24 sm:py-32", mode === "fullStack" ? "bg-[#06111f]/72" : "bg-[#0a0f0b]/56")}>
       <div className="section-shell">
         <SectionHeading
           index="05"
-          eyebrow="Stack"
-          title="Technical Stack, Shopify At The Core"
-          copy="Shopify is my strongest lane, but my resume also covers frontend engineering, APIs, full-stack product work, databases, cloud tools, mobile frameworks, and teaching Python."
+          eyebrow={content.stackHeading.eyebrow}
+          title={content.stackHeading.title}
+          copy={content.stackHeading.copy}
         />
 
         <MobileCarousel
@@ -24,7 +30,7 @@ export function ShopifyStack() {
           trackClassName="gap-5"
           itemClassName="min-w-[min(88vw,26rem)]"
         >
-          {skillGroups.map((group, index) => (
+          {orderedSkillGroups.map((group, index) => (
             <motion.article
               key={group.title}
               className="h-full rounded-[8px] border border-white/12 bg-white/[0.035] p-6 sm:p-7"

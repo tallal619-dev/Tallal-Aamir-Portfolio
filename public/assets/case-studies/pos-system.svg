@@ -1,0 +1,22 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" fill="#030712"/>
+  <rect x="48" y="48" width="1104" height="664" rx="34" fill="#07111F" stroke="#2563EB" stroke-width="2"/>
+  <text x="94" y="124" fill="#38BDF8" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">POS + INVENTORY OPERATIONS</text>
+  <text x="94" y="164" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="900">Retail billing and stock workflow</text>
+  <rect x="94" y="232" width="642" height="398" rx="28" fill="#0F172A" stroke="#38BDF8" stroke-opacity=".42"/>
+  <g fill="#13233B">
+    <rect x="126" y="272" width="172" height="92" rx="18"/>
+    <rect x="320" y="272" width="172" height="92" rx="18"/>
+    <rect x="514" y="272" width="172" height="92" rx="18"/>
+    <rect x="126" y="390" width="172" height="92" rx="18"/>
+    <rect x="320" y="390" width="172" height="92" rx="18"/>
+    <rect x="514" y="390" width="172" height="92" rx="18"/>
+  </g>
+  <rect x="126" y="536" width="560" height="48" rx="18" fill="#38BDF8"/>
+  <text x="334" y="568" fill="#020617" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">ADD TO BILL</text>
+  <rect x="784" y="232" width="322" height="398" rx="28" fill="#0F172A" stroke="#38BDF8" stroke-opacity=".42"/>
+  <text x="824" y="294" fill="#E5E7EB" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="900">Invoice</text>
+  <g stroke="#334155" stroke-width="3"><path d="M824 338h242"/><path d="M824 396h242"/><path d="M824 454h242"/></g>
+  <text x="824" y="548" fill="#38BDF8" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="900">$184.50</text>
+  <rect x="824" y="576" width="242" height="44" rx="16" fill="#111C2F" stroke="#38BDF8" stroke-opacity=".38"/>
+</svg>

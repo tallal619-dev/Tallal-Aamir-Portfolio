@@ -1,8 +1,12 @@
 "use client";
 
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import Shuffle from "@/components/react-bits/Shuffle";
 
 export function NeonName() {
+  const { mode } = usePortfolioMode();
+  const isFullStack = mode === "fullStack";
+
   return (
     <section
       aria-label="Muhammad Tallal Aamir"
@@ -13,7 +17,7 @@ export function NeonName() {
         className="absolute inset-0 opacity-35 mix-blend-multiply"
         style={{
           background:
-            "radial-gradient(circle at 20% 18%, rgba(255,255,255,0.9), transparent 26rem), radial-gradient(circle at 82% 52%, rgba(0,61,43,0.58), transparent 28rem), linear-gradient(90deg, rgba(0,0,0,0.08), transparent 36%, rgba(0,0,0,0.14))"
+            `radial-gradient(circle at 20% 18%, rgba(255,255,255,0.9), transparent 26rem), radial-gradient(circle at 82% 52%, rgba(${isFullStack ? "37,99,235" : "0,61,43"},0.58), transparent 28rem), linear-gradient(90deg, rgba(0,0,0,0.08), transparent 36%, rgba(0,0,0,0.14))`
         }}
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:34px_34px] opacity-25" aria-hidden="true" />
@@ -34,7 +38,7 @@ export function NeonName() {
         triggerOnHover={true}
         respectReducedMotion={true}
         scrambleCharset="TALLAAMIR01"
-        colorFrom="#003d2b"
+        colorFrom={isFullStack ? "#0f172a" : "#003d2b"}
         colorTo="#050806"
       />
     </section>

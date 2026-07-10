@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
+import { PortfolioModeProvider } from "@/components/layout/PortfolioModeProvider";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { CursorFollower } from "@/components/ui/CursorFollower";
 import { FloatingContactCTA } from "@/components/ui/FloatingContactCTA";
@@ -60,13 +61,15 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <SmoothScroll />
-        <CursorFollower />
-        <div className="site-ambient" aria-hidden="true" />
-        <Header />
-        {children}
-        <FloatingContactCTA />
-        <FloatingFiverrCTA />
+        <PortfolioModeProvider>
+          <SmoothScroll />
+          <CursorFollower />
+          <div className="site-ambient" aria-hidden="true" />
+          <Header />
+          {children}
+          <FloatingContactCTA />
+          <FloatingFiverrCTA />
+        </PortfolioModeProvider>
       </body>
     </html>
   );

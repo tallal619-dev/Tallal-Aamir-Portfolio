@@ -2,20 +2,22 @@
 
 import { motion } from "motion/react";
 import { CheckCircle2, Quote } from "lucide-react";
-import { testimonials, whyHire } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SpotlightCard } from "@/components/react-bits/SpotlightCard";
 
 export function WhyHireMe() {
+  const { content } = usePortfolioMode();
+
   return (
     <section className="border-y border-white/10 bg-white/[0.018] py-24 sm:py-32">
       <div className="section-shell">
         <SectionHeading
           index="07"
-          eyebrow="Why work with me"
-          title="Why Clients And Teams Trust Me"
-          copy="I bring the blend that matters in real Shopify work: implementation speed, communication, technical ownership, and polished delivery."
+          eyebrow={content.whyHireHeading.eyebrow}
+          title={content.whyHireHeading.title}
+          copy={content.whyHireHeading.copy}
         />
 
         <MobileCarousel
@@ -24,7 +26,7 @@ export function WhyHireMe() {
           desktopClassName="md:grid-cols-2 xl:grid-cols-3"
           itemClassName="min-w-[min(86vw,23rem)]"
         >
-          {whyHire.map((item, index) => (
+          {content.whyHire.map((item, index) => (
             <motion.div
               key={item.title}
               className="h-full"
@@ -50,7 +52,7 @@ export function WhyHireMe() {
           desktopClassName="md:grid-cols-3"
           itemClassName="min-w-[min(86vw,23rem)]"
         >
-          {testimonials.map((testimonial, index) => (
+          {content.testimonials.map((testimonial, index) => (
             <motion.figure
               key={`${testimonial}-${index}`}
               className="h-full rounded-[8px] border border-dashed border-white/16 bg-black/22 p-6"

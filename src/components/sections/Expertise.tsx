@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Database, Gauge, LayoutTemplate, PlugZap, ShoppingCart, SlidersHorizontal } from "lucide-react";
-import { expertiseCards } from "@/data/portfolio";
+import { Cloud, Code2, Database, Gauge, LayoutTemplate, PlugZap, ServerCog, ShieldCheck, ShoppingCart, SlidersHorizontal, Workflow } from "lucide-react";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SpotlightCard } from "@/components/react-bits/SpotlightCard";
@@ -14,26 +14,33 @@ const iconMap = {
   cart: ShoppingCart,
   database: Database,
   speed: Gauge,
-  plug: PlugZap
+  plug: PlugZap,
+  code: Code2,
+  server: ServerCog,
+  workflow: Workflow,
+  cloud: Cloud,
+  shield: ShieldCheck
 };
 
 export function Expertise() {
+  const { content } = usePortfolioMode();
+
   return (
     <section id="expertise" className="section-shell py-24 sm:py-32">
       <SectionHeading
         index="01"
-        eyebrow="Expertise"
-        title="What I Bring To Shopify Teams"
-        copy="Custom storefront architecture, conversion-led UX, and clean engineering habits for brands, agencies, and in-house commerce teams."
+        eyebrow={content.expertiseHeading.eyebrow}
+        title={content.expertiseHeading.title}
+        copy={content.expertiseHeading.copy}
       />
 
       <MobileCarousel
-        ariaLabel="Shopify expertise areas"
+        ariaLabel={`${content.switchLabel} expertise areas`}
         className="mt-14"
         desktopClassName="md:grid-cols-2 xl:grid-cols-3"
         itemClassName="min-w-[min(86vw,23rem)]"
       >
-        {expertiseCards.map((card, index) => {
+        {content.expertiseCards.map((card, index) => {
           const Icon = iconMap[card.icon];
 
           return (

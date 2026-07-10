@@ -1,16 +1,21 @@
+"use client";
+
 import { experience } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { TimelineItem } from "@/components/ui/TimelineItem";
 
 export function ExperienceTimeline() {
+  const { content } = usePortfolioMode();
+
   return (
     <section id="experience" className="section-shell py-24 sm:py-32">
       <SectionHeading
         index="04"
-        eyebrow="Experience"
-        title="Delivery, Leadership, And Range"
-        copy="Shopify implementation, development leadership, client communication, and enough full-stack range to solve the product problems around the storefront too."
+        eyebrow={content.experienceHeading.eyebrow}
+        title={content.experienceHeading.title}
+        copy={content.experienceHeading.copy}
       />
 
       <MobileCarousel

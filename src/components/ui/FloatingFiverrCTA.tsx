@@ -13,7 +13,7 @@ export function FloatingFiverrCTA() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Hire Muhammad Tallal Aamir on Fiverr"
-      className="focus-ring group fixed bottom-6 right-6 z-40 hidden size-16 items-center justify-center rounded-full border border-lime/35 bg-lime !text-black shadow-[0_18px_70px_rgba(149,191,71,0.22)] transition hover:bg-shopify lg:inline-flex [&_*]:!text-black"
+      className="focus-ring group fixed bottom-6 right-6 z-40 hidden size-16 items-center justify-center rounded-full border border-[#1ABB6C]/45 bg-[#1ABB6C] !text-white shadow-[0_18px_70px_rgba(26,187,108,0.24)] transition hover:bg-[#159f5b] lg:inline-flex [&_*]:!text-white"
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.45 }}

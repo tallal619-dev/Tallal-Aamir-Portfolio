@@ -1,0 +1,29 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" fill="#030712"/>
+  <rect x="52" y="52" width="1096" height="656" rx="32" fill="#07111F" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="96" y="124" fill="#38BDF8" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">NEXT.JS KANBAN PRODUCT</text>
+  <text x="96" y="164" fill="#E5E7EB" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="900">Trello-style collaboration board</text>
+  <g transform="translate(96 236)">
+    <rect width="272" height="392" rx="22" fill="#0F172A" stroke="#38BDF8" stroke-opacity=".42"/>
+    <rect x="24" y="28" width="104" height="16" rx="8" fill="#38BDF8"/>
+    <rect x="24" y="78" width="224" height="78" rx="16" fill="#111C2F"/>
+    <rect x="24" y="176" width="224" height="98" rx="16" fill="#13233B"/>
+    <rect x="24" y="294" width="180" height="58" rx="16" fill="#111C2F"/>
+  </g>
+  <g transform="translate(464 236)">
+    <rect width="272" height="392" rx="22" fill="#0F172A" stroke="#38BDF8" stroke-opacity=".42"/>
+    <rect x="24" y="28" width="86" height="16" rx="8" fill="#60A5FA"/>
+    <rect x="24" y="78" width="224" height="100" rx="16" fill="#13233B"/>
+    <rect x="24" y="198" width="224" height="76" rx="16" fill="#111C2F"/>
+    <rect x="24" y="294" width="154" height="58" rx="16" fill="#13233B"/>
+  </g>
+  <g transform="translate(832 236)">
+    <rect width="272" height="392" rx="22" fill="#0F172A" stroke="#38BDF8" stroke-opacity=".42"/>
+    <rect x="24" y="28" width="116" height="16" rx="8" fill="#93C5FD"/>
+    <rect x="24" y="78" width="224" height="76" rx="16" fill="#111C2F"/>
+    <rect x="24" y="174" width="224" height="122" rx="16" fill="#13233B"/>
+    <rect x="24" y="316" width="190" height="36" rx="16" fill="#111C2F"/>
+  </g>
+  <circle cx="1012" cy="126" r="44" fill="#38BDF8" fill-opacity=".16" stroke="#38BDF8"/>
+  <path d="M990 126h44M1012 104v44" stroke="#38BDF8" stroke-width="6" stroke-linecap="round"/>
+</svg>

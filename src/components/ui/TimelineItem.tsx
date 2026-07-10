@@ -17,7 +17,7 @@ export function TimelineItem({ item, index }: TimelineItemProps) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.62, delay: Math.min(index * 0.04, 0.24) }}
     >
-      <span className="absolute left-0 top-1 size-3 rounded-full border border-lime/45 bg-lime shadow-[0_0_26px_rgba(215,255,74,0.75)] md:left-0" />
+      <span className="absolute left-0 top-1 size-3 rounded-full border border-lime/45 bg-lime shadow-[0_0_26px_rgba(var(--accent-rgb),0.75)] md:left-0" />
       <div>
         <p className="font-mono text-xs uppercase text-lime">{item.period}</p>
         <h3 className="mt-3 text-2xl font-semibold text-cream">{item.role}</h3>

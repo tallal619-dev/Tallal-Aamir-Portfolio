@@ -5,15 +5,13 @@ import type { MouseEvent } from "react";
 import { gsap } from "gsap";
 import { ArrowUpRight, Download, Mail, X } from "lucide-react";
 import { contact, navItems } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
 
 interface StaggeredMenuProps {
   open: boolean;
   onClose: () => void;
 }
-
-const menuHighlights = ["Theme builds", "Product customizers", "AJAX carts", "Performance"];
-const layerColors = ["#d7ff4a", "#95bf47", "#071008"];
 
 type LenisWindow = Window & {
   __portfolioLenis?: {
@@ -22,9 +20,15 @@ type LenisWindow = Window & {
 };
 
 export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
+  const { content, mode } = usePortfolioMode();
   const panelRef = useRef<HTMLDivElement>(null);
   const preLayersRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const layerColors = mode === "fullStack" ? ["#38bdf8", "#2563eb", "#05070c"] : ["#d7ff4a", "#95bf47", "#071008"];
+  const ambientBackground =
+    mode === "fullStack"
+      ? "radial-gradient(circle at 78% 16%, rgba(56,189,248,0.22), transparent 22rem), radial-gradient(circle at 12% 82%, rgba(37,99,235,0.42), transparent 28rem), radial-gradient(circle, rgba(255,255,255,0.14) 1px, transparent 1.8px)"
+      : "radial-gradient(circle at 78% 16%, rgba(215,255,74,0.22), transparent 22rem), radial-gradient(circle at 12% 82%, rgba(0,61,43,0.42), transparent 28rem), radial-gradient(circle, rgba(255,255,255,0.14) 1px, transparent 1.8px)";
 
   useLayoutEffect(() => {
     if (!open) {
@@ -129,8 +133,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
           aria-hidden="true"
           className="absolute inset-0 opacity-70"
           style={{
-            background:
-              "radial-gradient(circle at 78% 16%, rgba(215,255,74,0.22), transparent 22rem), radial-gradient(circle at 12% 82%, rgba(0,61,43,0.72), transparent 28rem), radial-gradient(circle, rgba(255,255,255,0.14) 1px, transparent 1.8px)",
+            background: ambientBackground,
             backgroundSize: "auto, auto, 32px 32px"
           }}
         />
@@ -161,7 +164,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
 
           <div className="grid gap-5">
             <div className="sm-lower-item flex flex-wrap gap-2">
-              {menuHighlights.map((item) => (
+              {content.menuHighlights.map((item) => (
                 <span key={item} className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold uppercase text-cream/78">
                   {item}
                 </span>
@@ -175,7 +178,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
-                className="focus-ring inline-flex min-h-14 items-center justify-between rounded-full bg-lime px-5 py-4 text-sm font-black uppercase !text-black [&_*]:!text-black"
+                className="focus-ring inline-flex min-h-14 items-center justify-between rounded-full bg-[#1ABB6C] px-5 py-4 text-sm font-black uppercase !text-white transition hover:bg-[#159f5b] [&_*]:!text-white"
               >
                 <span className="inline-flex items-center gap-3">
                   <FiverrIcon className="size-7" />
@@ -185,7 +188,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
               </a>
               <div className="grid grid-cols-2 gap-3">
                 <a
-                  href={contact.resume}
+                  href={content.resume}
                   data-cursor="button"
                   download
                   onClick={onClose}

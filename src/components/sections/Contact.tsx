@@ -4,16 +4,9 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import { ArrowUpRight, Download, Mail, MessageCircle } from "lucide-react";
-import { contact } from "@/data/portfolio";
+import { contact, portfolioModeCopy } from "@/data/portfolio";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
 import { buildMailto } from "@/lib/utils";
-
-const footerLinks = [
-  { label: "Fiverr", href: contact.fiverr, external: true },
-  { label: "Resume", href: contact.resume, download: true },
-  { label: "Email", href: `mailto:${contact.email}` },
-  { label: "Top", href: "#top" }
-];
 
 const contactFieldVariants: Variants = {
   hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
@@ -36,6 +29,7 @@ const contactFormVariants: Variants = {
 };
 
 export function Contact() {
+  const contactContent = portfolioModeCopy.shopify;
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
@@ -47,6 +41,12 @@ export function Contact() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const footerLinks = [
+    { label: "Fiverr", href: contact.fiverr, external: true },
+    { label: "Resume", href: contactContent.resume, download: true },
+    { label: "Email", href: `mailto:${contact.email}` },
+    { label: "Top", href: "#top" }
+  ];
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -204,7 +204,7 @@ export function Contact() {
       `Email: ${email || "Not provided"}`,
       `Phone: ${phone || "Not provided"}`,
       "",
-      message || "Hi Tallal, I would like to discuss a Shopify project, role, or agency contract."
+      message || contactContent.contactMailtoFallback
     ].join("\n");
 
     window.location.href = buildMailto(subject, body);
@@ -269,7 +269,7 @@ export function Contact() {
                 <p className="font-mono text-xs font-black uppercase tracking-[0.24em] text-black/68">09 / Contact</p>
                 <h2 className="display-text mt-7 max-w-xl text-[clamp(4.2rem,9vw,9.4rem)] text-black lg:mt-5 lg:text-[clamp(3.9rem,6.4vw,7.2rem)]">Get In Touch</h2>
                 <p className="mt-9 max-w-lg text-base font-bold leading-8 text-black/72 sm:text-lg lg:mt-5 lg:text-base lg:leading-6">
-                  Open to remote Shopify roles, agency contracts, freelance builds, and long-term e-commerce development partnerships.
+                  {contactContent.contactCopy}
                 </p>
 
                 <div className="mt-12 grid gap-5 text-lg font-black uppercase text-black sm:text-xl lg:mt-6 lg:gap-2 lg:text-base">
@@ -282,7 +282,9 @@ export function Contact() {
                     {contact.phone}
                   </a>
                   <a className="focus-ring inline-flex w-fit items-center gap-3 transition hover:opacity-65" href={contact.fiverr} target="_blank" rel="noopener noreferrer">
-                    <FiverrIcon className="size-6" />
+                    <span className="grid size-8 place-items-center rounded-full bg-[#1ABB6C] text-white">
+                      <FiverrIcon className="size-5" />
+                    </span>
                     fiverr.com/tallalaamir
                   </a>
                 </div>
@@ -364,7 +366,7 @@ export function Contact() {
               <div className="flex flex-col gap-6 text-xs font-black uppercase text-black sm:flex-row sm:items-end sm:justify-between lg:gap-4 lg:text-[0.7rem]">
                 <p>
                   Copyright (c) Muhammad Tallal Aamir 2026
-                  <span className="mt-1 block text-black/58">Senior Shopify Developer / Development Lead</span>
+                  <span className="mt-1 block text-black/58">{contactContent.footerRole}</span>
                 </p>
                 <div className="flex flex-wrap gap-x-8 gap-y-3">
                   {footerLinks.map((link) => (
@@ -380,7 +382,13 @@ export function Contact() {
                       animate={footerVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                       transition={{ delay: footerVisible ? 0.1 + footerLinks.indexOf(link) * 0.055 : 0, duration: 0.38 }}
                     >
-                      {link.label === "Fiverr" ? <FiverrIcon className="size-6" /> : link.label}
+                      {link.label === "Fiverr" ? (
+                        <span className="grid size-8 place-items-center rounded-full bg-[#1ABB6C] text-white">
+                          <FiverrIcon className="size-5" />
+                        </span>
+                      ) : (
+                        link.label
+                      )}
                       {link.download ? <Download size={14} /> : link.external ? <ArrowUpRight size={14} /> : null}
                     </motion.a>
                   ))}

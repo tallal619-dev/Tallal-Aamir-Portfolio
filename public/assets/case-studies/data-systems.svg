@@ -1,0 +1,19 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" fill="#030712"/>
+  <rect x="48" y="48" width="1104" height="664" rx="34" fill="#07111F" stroke="#2563EB" stroke-width="2"/>
+  <text x="94" y="124" fill="#38BDF8" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">DATA BANK + MANAGEMENT SYSTEM</text>
+  <text x="94" y="164" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="900">Records, roles and reports</text>
+  <rect x="94" y="230" width="1012" height="96" rx="24" fill="#0F172A" stroke="#38BDF8" stroke-opacity=".36"/>
+  <rect x="132" y="266" width="286" height="24" rx="12" fill="#1E293B"/>
+  <rect x="854" y="256" width="188" height="44" rx="16" fill="#38BDF8"/>
+  <g transform="translate(94 370)" fill="#0F172A" stroke="#334155" stroke-width="2">
+    <rect width="1012" height="70" rx="18"/>
+    <rect y="92" width="1012" height="70" rx="18"/>
+    <rect y="184" width="1012" height="70" rx="18"/>
+  </g>
+  <g fill="#38BDF8"><circle cx="140" cy="405" r="14"/><circle cx="140" cy="497" r="14"/><circle cx="140" cy="589" r="14"/></g>
+  <g stroke="#64748B" stroke-width="8" stroke-linecap="round">
+    <path d="M190 405h260"/><path d="M190 497h320"/><path d="M190 589h230"/>
+    <path d="M620 405h344"/><path d="M620 497h294"/><path d="M620 589h370"/>
+  </g>
+</svg>
