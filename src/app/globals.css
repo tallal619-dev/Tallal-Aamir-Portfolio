@@ -215,6 +215,17 @@ html[data-portfolio-mode="fullStack"] .modal-scrollbar::-webkit-scrollbar-thumb 
   background: rgba(56, 189, 248, 0.45);
 }
 
+@media (min-width: 1024px) {
+  html[data-portfolio-mode="fullStack"] .contact-reveal,
+  html[data-portfolio-mode="fullStack"] .contact-reveal > div {
+    background-color: #000000 !important;
+  }
+
+  html[data-portfolio-mode="fullStack"] .contact-reveal .contact-panel {
+    background-color: #38bdf8 !important;
+  }
+}
+
 .liquid-ether-container {
   position: relative;
   overflow: hidden;

@@ -48,9 +48,9 @@ export function FeaturedWork() {
 
         <MobileCarousel
           ariaLabel={showShopifyProjects ? "Deep-dive case studies" : "Full-stack systems case studies"}
-          className="mt-14"
+          className={showShopifyProjects ? "mt-14" : "mt-16"}
           desktopClassName="md:grid-cols-2"
-          trackClassName="gap-5"
+          trackClassName={showShopifyProjects ? "gap-5" : "gap-6 md:gap-7 xl:gap-8"}
           itemClassName="min-w-[min(88vw,25rem)]"
         >
           {deepDiveProjects.map((project, index) => (

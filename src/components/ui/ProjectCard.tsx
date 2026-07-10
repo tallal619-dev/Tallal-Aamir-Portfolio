@@ -20,8 +20,6 @@ type SystemVisualKind = "kanban" | "auction" | "pos" | "desktop" | "records" | "
 
 interface SystemVisual {
   kind: SystemVisualKind;
-  kicker: string;
-  title: string;
   stats: string[];
 }
 
@@ -42,8 +40,6 @@ function getSystemVisual(project: Project): SystemVisual {
   if (project.title.includes("Trello")) {
     return {
       kind: "kanban",
-      kicker: "Product workflow",
-      title: "Boards, cards and deployment flow",
       stats: ["Next.js", "Node API", "AWS S3"]
     };
   }
@@ -51,8 +47,6 @@ function getSystemVisual(project: Project): SystemVisual {
   if (project.title.includes("Auction")) {
     return {
       kind: "auction",
-      kicker: "Auction portal",
-      title: "Inventory, bidders and admin control",
       stats: ["Live bids", "RBAC", "Supabase"]
     };
   }
@@ -60,8 +54,6 @@ function getSystemVisual(project: Project): SystemVisual {
   if (project.title.includes("Electron")) {
     return {
       kind: "desktop",
-      kicker: "Desktop POS",
-      title: "Local counter workflow",
       stats: ["Electron", "Offline", "Receipts"]
     };
   }
@@ -69,8 +61,6 @@ function getSystemVisual(project: Project): SystemVisual {
   if (project.title.includes("POS")) {
     return {
       kind: "pos",
-      kicker: "Retail operations",
-      title: "Billing, stock and reporting",
       stats: ["Sales", "Stock", "Reports"]
     };
   }
@@ -78,16 +68,12 @@ function getSystemVisual(project: Project): SystemVisual {
   if (project.title.includes("Breeders")) {
     return {
       kind: "mobile",
-      kicker: "Mobile release",
-      title: "Records app shipped to Play Store",
       stats: ["Flutter", "Firebase", "Release"]
     };
   }
 
   return {
     kind: "records",
-    kicker: project.title.includes("Student") ? "Education data" : project.title.includes("Employee") ? "HR system" : "Data system",
-    title: "Searchable records and role-based views",
     stats: ["Records", "Roles", "Reports"]
   };
 }
@@ -205,11 +191,11 @@ function SystemCaseVisual({ project, index, variant = "card" }: { project: Proje
   const isModal = variant === "modal";
 
   return (
-    <div className={cn("relative h-full overflow-hidden bg-[#06101d]", isModal ? "min-h-[680px]" : "min-h-[250px]")}>
+    <div className={cn("relative h-full overflow-hidden bg-[#06101d]", isModal ? "min-h-[520px]" : "min-h-[300px]")}>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(56,189,248,0.22),transparent_24rem),linear-gradient(135deg,rgba(56,189,248,0.14),transparent_42%,rgba(37,99,235,0.12))]" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:28px_28px] opacity-30" />
 
-      <div className={cn("relative z-10 flex h-full flex-col", isModal ? "p-7 lg:p-9" : "p-5")}>
+      <div className={cn("relative z-10 flex h-full flex-col", isModal ? "p-7 lg:p-9" : "p-5 sm:p-6")}>
         <div className="flex items-center justify-between gap-4">
           <span className="rounded-full border border-lime/35 bg-black/50 px-3 py-1 text-xs font-black uppercase text-lime backdrop-blur-xl">
             Case 0{index + 1}
@@ -219,8 +205,8 @@ function SystemCaseVisual({ project, index, variant = "card" }: { project: Proje
           </span>
         </div>
 
-        <div className={cn("grid flex-1 items-center gap-5", isModal ? "py-8" : "py-5")}>
-          <div className={cn("mx-auto w-full max-w-[34rem] rounded-[8px] border border-sky-300/20 bg-black/40 p-3 shadow-[0_28px_90px_rgba(0,0,0,0.34)] backdrop-blur-xl", isModal && "max-w-[40rem] p-4")}>
+        <div className={cn("grid flex-1 items-center", isModal ? "py-8" : "py-6")}>
+          <div className={cn("mx-auto w-full max-w-[34rem] rounded-[8px] border border-sky-300/20 bg-black/40 p-3 shadow-[0_28px_90px_rgba(0,0,0,0.34)] backdrop-blur-xl", isModal ? "max-w-[40rem] p-4" : "p-4")}>
             <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex gap-1.5">
                 <span className="size-2 rounded-full bg-red-400/75" />
@@ -233,17 +219,7 @@ function SystemCaseVisual({ project, index, variant = "card" }: { project: Proje
           </div>
         </div>
 
-        <div>
-          <p className="text-[0.68rem] font-black uppercase text-lime">{visual.kicker}</p>
-          {!isModal ? <h4 className="mt-2 max-w-xl text-2xl font-semibold leading-tight text-cream">{visual.title}</h4> : null}
-          <div className="mt-4 flex flex-wrap gap-2">
-            {visual.stats.map((item) => (
-              <span key={item} className="rounded-full border border-white/10 bg-white/[0.045] px-3 py-1 text-[0.65rem] font-bold uppercase text-cream/70">
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
+        {isModal ? null : <span className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#06101d] to-transparent" />}
       </div>
     </div>
   );
@@ -299,7 +275,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       >
         <TiltCard className="h-full" strength={5}>
           <SpotlightCard className="group/case h-full">
-            <article className="grid h-full min-h-[540px] grid-rows-[250px_1fr] overflow-hidden">
+            <article className={cn("grid h-full overflow-hidden", isFullStack ? "min-h-[640px] grid-rows-[300px_1fr]" : "min-h-[540px] grid-rows-[250px_1fr]")}>
               <div className="relative overflow-hidden border-b border-white/10 bg-[#080d0a]">
                 {isFullStack ? (
                   <SystemCaseVisual project={project} index={index} />
@@ -326,12 +302,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                 )}
               </div>
 
-              <div className={cn("flex flex-col p-6 sm:p-7", isFullStack && "bg-[linear-gradient(180deg,rgba(7,17,31,0.82),rgba(4,8,15,0.96))]")}>
+              <div className={cn("flex flex-col p-6 sm:p-7", isFullStack && "bg-[linear-gradient(180deg,rgba(7,17,31,0.82),rgba(4,8,15,0.96))] p-7 sm:p-8")}>
                 <p className="eyebrow text-shopify">{project.eyebrow}</p>
-                <h3 className="mt-4 text-3xl font-semibold leading-tight text-cream">{project.title}</h3>
-                <p className="mt-4 text-pretty text-sm leading-6 text-muted">{project.description}</p>
+                <h3 className={cn("mt-4 font-semibold leading-tight text-cream", isFullStack ? "text-[1.85rem] sm:text-[2.1rem]" : "text-3xl")}>{project.title}</h3>
+                <p className={cn("mt-4 text-pretty text-sm leading-6 text-muted", isFullStack && "max-w-[60ch] leading-7")}>{project.description}</p>
 
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className={cn("mt-5 flex flex-wrap gap-2", isFullStack && "mt-6 gap-2.5")}>
                   {project.tags.slice(0, 5).map((tag) => (
                     <span key={tag} className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-cream/78">
                       {tag}
@@ -339,18 +315,20 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                   ))}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setOpen(true)}
-                  className={cn(
-                    "focus-ring mt-auto inline-flex min-h-12 w-full items-center justify-between rounded-full border border-white/12 px-5 py-3 text-sm font-black uppercase text-cream transition hover:border-lime/50 hover:bg-lime/10",
-                    isFullStack && "border-lime/30 bg-lime/10"
-                  )}
-                  aria-label={`View case study for ${project.title}`}
-                >
-                  View Case Study
-                  <ArrowUpRight size={17} />
-                </button>
+                <div className={cn("mt-auto pt-7", isFullStack && "pt-8")}>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(true)}
+                    className={cn(
+                      "focus-ring inline-flex min-h-12 w-full items-center justify-between rounded-full border border-white/12 px-5 py-3 text-sm font-black uppercase text-cream transition hover:border-lime/50 hover:bg-lime/10",
+                      isFullStack && "min-h-14 border-lime/30 bg-lime/10 px-6"
+                    )}
+                    aria-label={`View case study for ${project.title}`}
+                  >
+                    View Case Study
+                    <ArrowUpRight size={17} />
+                  </button>
+                </div>
               </div>
             </article>
           </SpotlightCard>
