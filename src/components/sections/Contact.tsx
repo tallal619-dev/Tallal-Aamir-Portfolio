@@ -6,6 +6,7 @@ import type { Variants } from "motion/react";
 import { ArrowUpRight, Download, Mail, MessageCircle } from "lucide-react";
 import { contact, portfolioModeCopy } from "@/data/portfolio";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
+import { ResumeDownloadMenu } from "@/components/ui/ResumeDownloadMenu";
 import { buildMailto } from "@/lib/utils";
 
 const contactFieldVariants: Variants = {
@@ -43,7 +44,7 @@ export function Contact() {
   const [message, setMessage] = useState("");
   const footerLinks = [
     { label: "Fiverr", href: contact.fiverr, external: true },
-    { label: "Resume", href: contactContent.resume, download: true },
+    { label: "Resume" },
     { label: "Email", href: `mailto:${contact.email}` },
     { label: "Top", href: "#top" }
   ];
@@ -370,27 +371,43 @@ export function Contact() {
                 </p>
                 <div className="flex flex-wrap gap-x-8 gap-y-3">
                   {footerLinks.map((link) => (
-                    <motion.a
-                      key={link.label}
-                      href={link.href}
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noopener noreferrer" : undefined}
-                      download={link.download ? true : undefined}
-                      aria-label={link.label === "Fiverr" ? "Open Fiverr profile" : undefined}
-                      className="focus-ring inline-flex min-h-9 items-center gap-2 underline decoration-2 underline-offset-4 transition hover:opacity-60"
-                      initial={false}
-                      animate={footerVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                      transition={{ delay: footerVisible ? 0.1 + footerLinks.indexOf(link) * 0.055 : 0, duration: 0.38 }}
-                    >
-                      {link.label === "Fiverr" ? (
-                        <span className="grid size-8 place-items-center rounded-full bg-[#1ABB6C] text-white">
-                          <FiverrIcon className="size-5" />
-                        </span>
-                      ) : (
-                        link.label
-                      )}
-                      {link.download ? <Download size={14} /> : link.external ? <ArrowUpRight size={14} /> : null}
-                    </motion.a>
+                    link.label === "Resume" ? (
+                      <motion.div
+                        key={link.label}
+                        initial={false}
+                        animate={footerVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                        transition={{ delay: footerVisible ? 0.1 + footerLinks.indexOf(link) * 0.055 : 0, duration: 0.38 }}
+                      >
+                        <ResumeDownloadMenu
+                          align="left"
+                          className="focus-ring inline-flex min-h-9 items-center gap-2 underline decoration-2 underline-offset-4 transition hover:opacity-60"
+                        >
+                          Resume
+                          <Download size={14} />
+                        </ResumeDownloadMenu>
+                      </motion.div>
+                    ) : (
+                      <motion.a
+                        key={link.label}
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                        aria-label={link.label === "Fiverr" ? "Open Fiverr profile" : undefined}
+                        className="focus-ring inline-flex min-h-9 items-center gap-2 underline decoration-2 underline-offset-4 transition hover:opacity-60"
+                        initial={false}
+                        animate={footerVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                        transition={{ delay: footerVisible ? 0.1 + footerLinks.indexOf(link) * 0.055 : 0, duration: 0.38 }}
+                      >
+                        {link.label === "Fiverr" ? (
+                          <span className="grid size-8 place-items-center rounded-full bg-[#1ABB6C] text-white">
+                            <FiverrIcon className="size-5" />
+                          </span>
+                        ) : (
+                          link.label
+                        )}
+                        {link.external ? <ArrowUpRight size={14} /> : null}
+                      </motion.a>
+                    )
                   ))}
                 </div>
               </div>

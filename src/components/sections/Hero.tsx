@@ -3,9 +3,11 @@
 import type { MouseEvent } from "react";
 import { useRef, useState } from "react";
 import { motion } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
 import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import LiquidEther from "@/components/react-bits/LiquidEther";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { ResumeDownloadMenu } from "@/components/ui/ResumeDownloadMenu";
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), Math.max(min, max));
 
@@ -148,14 +150,13 @@ export function Hero() {
             >
               View Work
             </MagneticButton>
-            <MagneticButton
-              href={content.resume}
-              variant="ghost"
-              className="col-span-2 w-full !text-cream/66 hover:!text-lime sm:w-auto"
-              download
+            <ResumeDownloadMenu
+              align="left"
+              className="focus-ring group col-span-2 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-black uppercase !text-cream/66 transition hover:!text-lime sm:w-auto"
             >
               Download Resume
-            </MagneticButton>
+              <ArrowUpRight size={17} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </ResumeDownloadMenu>
           </motion.div>
         </div>
       </div>

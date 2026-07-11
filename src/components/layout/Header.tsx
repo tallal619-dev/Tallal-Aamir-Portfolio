@@ -8,6 +8,7 @@ import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { StaggeredMenu } from "@/components/react-bits/StaggeredMenu";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
 import { ModeSwitch } from "@/components/ui/ModeSwitch";
+import { ResumeDownloadMenu } from "@/components/ui/ResumeDownloadMenu";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -77,10 +78,7 @@ export function Header() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <ModeSwitch />
-          <a
-            href={content.resume}
-            data-cursor="button"
-            download
+          <ResumeDownloadMenu
             className={cn(
               "focus-ring inline-flex min-h-12 items-center gap-2 rounded-full border px-4 py-3 text-xs font-black uppercase shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl transition",
               scrolled
@@ -90,7 +88,7 @@ export function Header() {
           >
             <Download size={15} />
             Resume
-          </a>
+          </ResumeDownloadMenu>
           <a
             href={contact.fiverr}
             data-cursor="button"

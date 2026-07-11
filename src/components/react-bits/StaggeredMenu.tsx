@@ -7,6 +7,7 @@ import { ArrowUpRight, Download, Mail, X } from "lucide-react";
 import { contact, navItems } from "@/data/portfolio";
 import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
+import { ResumeDownloadMenu } from "@/components/ui/ResumeDownloadMenu";
 
 interface StaggeredMenuProps {
   open: boolean;
@@ -187,16 +188,15 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
                 <ArrowUpRight size={18} />
               </a>
               <div className="grid grid-cols-2 gap-3">
-                <a
-                  href={content.resume}
-                  data-cursor="button"
-                  download
-                  onClick={onClose}
-                  className="focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/12 px-4 py-3 text-xs font-bold uppercase text-cream"
+                <ResumeDownloadMenu
+                  align="left"
+                  onSelect={onClose}
+                  wrapperClassName="w-full"
+                  className="focus-ring inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/12 px-4 py-3 text-xs font-bold uppercase text-cream"
                 >
                   <Download size={16} />
                   Resume
-                </a>
+                </ResumeDownloadMenu>
                 <a
                   href={`mailto:${contact.email}`}
                   data-cursor="button"
