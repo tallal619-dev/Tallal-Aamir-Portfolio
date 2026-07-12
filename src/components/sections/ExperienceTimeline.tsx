@@ -52,7 +52,7 @@ export function ExperienceTimeline() {
   return (
     <section id="experience" className="section-shell py-24 sm:py-32">
       <SectionHeading
-        index="04"
+        index="05"
         eyebrow={content.experienceHeading.eyebrow}
         title={content.experienceHeading.title}
         copy={content.experienceHeading.copy}

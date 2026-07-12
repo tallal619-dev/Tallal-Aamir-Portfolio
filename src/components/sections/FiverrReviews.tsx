@@ -20,7 +20,7 @@ export function FiverrReviews() {
     <section id="reviews" className={cn("overflow-hidden border-y border-lime/10 py-24 sm:py-32", mode === "fullStack" ? "bg-[#050b16]" : "bg-[#071008]")}>
       <div className="section-shell">
         <SectionHeading
-          index="08"
+          index="09"
           eyebrow={content.reviewsHeading.eyebrow}
           title={content.reviewsHeading.title}
           copy={content.reviewsHeading.copy}

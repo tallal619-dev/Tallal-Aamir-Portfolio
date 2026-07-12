@@ -44,6 +44,7 @@ export function Contact() {
   const [message, setMessage] = useState("");
   const footerLinks = [
     { label: "Fiverr", href: contact.fiverr, external: true },
+    { label: "LinkedIn", href: contact.linkedIn, external: true },
     { label: "Resume" },
     { label: "Email", href: `mailto:${contact.email}` },
     { label: "Top", href: "#top" }
@@ -267,7 +268,7 @@ export function Contact() {
                 viewport={{ once: true, amount: 0.24 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
-                <p className="font-mono text-xs font-black uppercase tracking-[0.24em] text-black/68">09 / Contact</p>
+                <p className="font-mono text-xs font-black uppercase tracking-[0.24em] text-black/68">10 / Contact</p>
                 <h2 className="display-text mt-7 max-w-xl text-[clamp(4.2rem,9vw,9.4rem)] text-black lg:mt-5 lg:text-[clamp(3.9rem,6.4vw,7.2rem)]">Get In Touch</h2>
                 <p className="mt-9 max-w-lg text-base font-bold leading-8 text-black/72 sm:text-lg lg:mt-5 lg:text-base lg:leading-6">
                   {contactContent.contactCopy}
@@ -287,6 +288,10 @@ export function Contact() {
                       <FiverrIcon className="size-5" />
                     </span>
                     fiverr.com/tallalaamir
+                  </a>
+                  <a className="focus-ring inline-flex w-fit items-center gap-3 transition hover:opacity-65" href={contact.linkedIn} target="_blank" rel="noopener noreferrer">
+                    <ArrowUpRight size={20} />
+                    linkedin.com/in/tallal-aamir
                   </a>
                 </div>
               </motion.div>

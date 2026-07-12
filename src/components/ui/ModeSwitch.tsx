@@ -2,6 +2,7 @@
 
 import { Code2 } from "lucide-react";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
 import type { SVGProps } from "react";
 import { portfolioModeCopy } from "@/data/portfolio";
 import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
@@ -10,7 +11,10 @@ import { cn } from "@/lib/utils";
 interface ModeSwitchProps {
   compact?: boolean;
   className?: string;
+  showHint?: boolean;
 }
+
+const hintSeenEvent = "portfolio:mode-hint-seen";
 
 function ShopifyIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -32,21 +36,42 @@ function ShopifyIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function ModeSwitch({ compact = false, className }: ModeSwitchProps) {
+export function ModeSwitch({ compact = false, className, showHint = false }: ModeSwitchProps) {
   const { mode, switchMode } = usePortfolioMode();
   const isFullStack = mode === "fullStack";
   const nextMode = isFullStack ? "shopify" : "fullStack";
+  const [hintDismissed, setHintDismissed] = useState(false);
 
-  return (
+  useEffect(() => {
+    if (!showHint) {
+      return undefined;
+    }
+
+    const handleHintSeen = () => setHintDismissed(true);
+    window.addEventListener(hintSeenEvent, handleHintSeen);
+
+    return () => window.removeEventListener(hintSeenEvent, handleHintSeen);
+  }, [showHint]);
+
+  const handleClick = () => {
+    switchMode(nextMode);
+
+    if (showHint) {
+      setHintDismissed(true);
+      window.dispatchEvent(new CustomEvent(hintSeenEvent));
+    }
+  };
+
+  const button = (
     <button
       type="button"
       data-cursor="button"
       aria-label={`Switch to ${portfolioModeCopy[nextMode].switchLabel} portfolio`}
       aria-pressed={isFullStack}
-      onClick={() => switchMode(nextMode)}
+      onClick={handleClick}
       onPointerUp={(event) => event.currentTarget.blur()}
       className={cn(
-        "focus-ring relative grid min-h-12 shrink-0 grid-cols-2 overflow-hidden rounded-full border border-white/14 bg-[#070707]/68 p-1 text-cream shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl transition hover:border-lime/45",
+        "focus-ring relative grid min-h-12 shrink-0 grid-cols-2 overflow-hidden rounded-full border border-white/14 bg-[#070707]/68 p-1 text-cream shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl transition hover:border-lime/30",
         compact ? "w-[5.35rem]" : "w-[6.25rem]",
         className
       )}
@@ -55,7 +80,7 @@ export function ModeSwitch({ compact = false, className }: ModeSwitchProps) {
       <motion.span
         aria-hidden="true"
         className="absolute bottom-1 top-1 w-[calc(50%-0.25rem)] rounded-full bg-lime"
-        style={{ boxShadow: `0 0 28px ${isFullStack ? "rgba(56,189,248,0.32)" : "rgba(215,255,74,0.32)"}` }}
+        style={{ boxShadow: `0 0 18px ${isFullStack ? "rgba(56,189,248,0.22)" : "rgba(215,255,74,0.24)"}` }}
         animate={{ left: isFullStack ? "calc(50%)" : "0.25rem" }}
         transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
       />
@@ -68,5 +93,21 @@ export function ModeSwitch({ compact = false, className }: ModeSwitchProps) {
         <span className="sr-only">{portfolioModeCopy.fullStack.switchLabel}</span>
       </span>
     </button>
+  );
+
+  if (!showHint) {
+    return button;
+  }
+
+  return (
+    <span className={cn("mode-switch-nudge relative inline-flex shrink-0", compact && "mode-switch-nudge-compact")}>
+      {!hintDismissed ? (
+        <>
+          <span aria-hidden="true" className="mode-switch-glow" />
+          <span className={cn("mode-switch-note", compact && "mode-switch-note-compact")}>{compact ? "swap" : "Psst, flip modes"}</span>
+        </>
+      ) : null}
+      {button}
+    </span>
   );
 }

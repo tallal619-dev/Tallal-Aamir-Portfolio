@@ -14,7 +14,7 @@ export function WhyHireMe() {
     <section className="border-y border-white/10 bg-white/[0.018] py-24 sm:py-32">
       <div className="section-shell">
         <SectionHeading
-          index="07"
+          index="08"
           eyebrow={content.whyHireHeading.eyebrow}
           title={content.whyHireHeading.title}
           copy={content.whyHireHeading.copy}

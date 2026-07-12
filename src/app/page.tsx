@@ -1,3 +1,4 @@
+import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
 import { Expertise } from "@/components/sections/Expertise";
@@ -15,6 +16,7 @@ export default function Home() {
     <main id="top">
       <Hero />
       <TrustBar />
+      <About />
       <Expertise />
       <NeonName />
       <FeaturedWork />

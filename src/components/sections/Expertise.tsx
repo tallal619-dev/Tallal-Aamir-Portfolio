@@ -28,7 +28,7 @@ export function Expertise() {
   return (
     <section id="expertise" className="section-shell py-24 sm:py-32">
       <SectionHeading
-        index="01"
+        index="02"
         eyebrow={content.expertiseHeading.eyebrow}
         title={content.expertiseHeading.title}
         copy={content.expertiseHeading.copy}

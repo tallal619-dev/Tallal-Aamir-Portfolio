@@ -11,7 +11,7 @@ export function Process() {
   return (
     <section id="process" className="section-shell py-24 sm:py-32">
       <SectionHeading
-        index="06"
+        index="07"
         eyebrow={content.processHeading.eyebrow}
         title={content.processHeading.title}
         copy={content.processHeading.copy}

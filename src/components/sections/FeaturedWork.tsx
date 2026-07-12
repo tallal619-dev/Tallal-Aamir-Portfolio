@@ -1,6 +1,6 @@
 "use client";
 
-import { liveProjects, projects } from "@/data/portfolio";
+import { fullStackLiveProjects, liveProjects, projects } from "@/data/portfolio";
 import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { LiveProjectCard } from "@/components/ui/LiveProjectCard";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
@@ -10,45 +10,42 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 export function FeaturedWork() {
   const { content, mode } = usePortfolioMode();
   const showShopifyProjects = mode === "shopify";
+  const liveWorkProjects = showShopifyProjects ? liveProjects : fullStackLiveProjects;
   const deepDiveProjects = content.caseStudyOrder.flatMap((title) => projects.filter((project) => project.title === title));
 
   return (
     <section id="work" className="border-y border-white/10 bg-white/[0.018] py-24 sm:py-32">
       <div className="section-shell">
         <SectionHeading
-          index="02"
+          index="03"
           eyebrow={content.featuredHeading.eyebrow}
           title={content.featuredHeading.title}
           copy={content.featuredHeading.copy}
         />
 
-        {showShopifyProjects ? (
-          <>
-            <MobileCarousel
-              ariaLabel="Live Shopify projects"
-              className="mt-14"
-              desktopClassName="md:grid-cols-2 xl:grid-cols-3"
-              trackClassName="gap-5"
-              itemClassName="min-w-[min(88vw,25rem)]"
-            >
-              {liveProjects.map((project, index) => (
-                <LiveProjectCard key={project.title} project={project} index={index} />
-              ))}
-            </MobileCarousel>
+        <MobileCarousel
+          ariaLabel={showShopifyProjects ? "Live Shopify projects" : "Live Next.js projects"}
+          className="mt-14"
+          desktopClassName={showShopifyProjects ? "md:grid-cols-2 xl:grid-cols-3" : "md:grid-cols-2"}
+          trackClassName="gap-5"
+          itemClassName="min-w-[min(88vw,25rem)]"
+        >
+          {liveWorkProjects.map((project, index) => (
+            <LiveProjectCard key={project.title} project={project} index={index} />
+          ))}
+        </MobileCarousel>
 
-            <SectionHeading
-              index="03"
-              eyebrow={content.caseStudyHeading.eyebrow}
-              title={content.caseStudyHeading.title}
-              copy={content.caseStudyHeading.copy}
-              className="mt-24 sm:mt-32"
-            />
-          </>
-        ) : null}
+        <SectionHeading
+          index="04"
+          eyebrow={content.caseStudyHeading.eyebrow}
+          title={content.caseStudyHeading.title}
+          copy={content.caseStudyHeading.copy}
+          className="mt-24 sm:mt-32"
+        />
 
         <MobileCarousel
           ariaLabel={showShopifyProjects ? "Deep-dive case studies" : "Full-stack systems case studies"}
-          className={showShopifyProjects ? "mt-14" : "mt-16"}
+          className="mt-14"
           desktopClassName="md:grid-cols-2"
           trackClassName={showShopifyProjects ? "gap-5" : "gap-6 md:gap-7 xl:gap-8"}
           itemClassName="min-w-[min(88vw,25rem)]"

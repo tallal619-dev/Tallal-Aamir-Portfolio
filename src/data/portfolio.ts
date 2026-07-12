@@ -87,11 +87,12 @@ export const contact = {
   location: "Islamabad, Pakistan",
   resume: "/Tallal_Aamir_Senior_Shopify_Resume_Updated.pdf",
   fullStackResume: "/Tallal_Aamir_Senior_Full_Stack_Developer_Resume.pdf",
-  linkedIn: "#",
+  linkedIn: "https://www.linkedin.com/in/tallal-aamir-baa71b277/",
   github: "#"
 };
 
 export const navItems = [
+  { label: "About", href: "#about" },
   { label: "Expertise", href: "#expertise" },
   { label: "Work", href: "#work" },
   { label: "Experience", href: "#experience" },
@@ -243,6 +244,27 @@ export const liveProjects: LiveProject[] = [
     description:
       "A high-volume nutrition e-commerce storefront with product catalog structure, multilingual market potential, strong product browsing, and performance-focused shopping experience.",
     tags: ["Shopify", "Nutrition", "Product Catalog", "International Store", "E-commerce UX"]
+  }
+];
+
+export const fullStackLiveProjects: LiveProject[] = [
+  {
+    title: "SHDW Devs",
+    category: "Next.js Shopify Agency Website",
+    url: "https://shdwdevs.com/",
+    image: "/assets/projects/shdwdevs-preview.png",
+    description:
+      "A polished Next.js agency site for Shopify development services, built with a conversion-focused hero, service sections, pricing flow, responsive navigation, and direct project inquiry path.",
+    tags: ["Next.js", "Agency Website", "Shopify Services", "Responsive UI", "Lead Flow"]
+  },
+  {
+    title: "Dumb Studios",
+    category: "Next.js Creative Studio Website",
+    url: "https://dumbstudios.com/",
+    image: "/assets/projects/dumb-studios-preview.png",
+    description:
+      "A bold creative agency website with motion-led brand presentation, dark editorial visuals, prominent project CTAs, and a high-impact layout for media and web production services.",
+    tags: ["Next.js", "Creative Agency", "Motion UI", "Brand Site", "Responsive Design"]
   }
 ];
 

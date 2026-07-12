@@ -17,7 +17,7 @@ export function ShopifyStack() {
     <section className={cn("border-y border-white/10 py-24 sm:py-32", mode === "fullStack" ? "bg-[#06111f]/72" : "bg-[#0a0f0b]/56")}>
       <div className="section-shell">
         <SectionHeading
-          index="05"
+          index="06"
           eyebrow={content.stackHeading.eyebrow}
           title={content.stackHeading.title}
           copy={content.stackHeading.copy}

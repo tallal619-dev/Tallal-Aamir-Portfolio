@@ -58,7 +58,7 @@ export function Header() {
 
         <div
           className={cn(
-            "hidden min-h-12 items-center gap-1 rounded-full border p-1 shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl lg:flex",
+            "hidden min-h-12 items-center gap-1 rounded-full border p-1 shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl xl:flex",
             scrolled ? "border-white/12 bg-[#070707]/72" : "border-white/12 bg-[#070707]/58"
           )}
         >
@@ -76,8 +76,8 @@ export function Header() {
           ))}
         </div>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <ModeSwitch />
+        <div className="hidden items-center gap-3 xl:flex">
+          <ModeSwitch showHint />
           <ResumeDownloadMenu
             className={cn(
               "focus-ring inline-flex min-h-12 items-center gap-2 rounded-full border px-4 py-3 text-xs font-black uppercase shadow-[0_18px_70px_rgba(0,0,0,0.16)] backdrop-blur-2xl transition",
@@ -102,8 +102,8 @@ export function Header() {
           </a>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
-          <ModeSwitch compact />
+        <div className="flex items-center gap-2 xl:hidden">
+          <ModeSwitch compact showHint />
           <button
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}

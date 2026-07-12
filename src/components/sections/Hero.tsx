@@ -79,7 +79,7 @@ export function Hero() {
         <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center text-center">
           <motion.div
             key={`${mode}-hero-badge`}
-            className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/14 bg-white/[0.07] px-4 py-2 shadow-[0_16px_60px_rgba(0,0,0,0.24)] backdrop-blur-xl"
+            className="mb-6 inline-flex max-w-full items-center gap-3 rounded-full border border-white/14 bg-white/[0.07] px-4 py-2 shadow-[0_16px_60px_rgba(0,0,0,0.24)] backdrop-blur-xl"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
@@ -88,7 +88,7 @@ export function Hero() {
               className="size-2 rounded-full bg-lime"
               style={{ boxShadow: `0 0 18px ${mode === "fullStack" ? "rgba(56,189,248,0.9)" : "rgba(215,255,74,0.9)"}` }}
             />
-            <span className="text-[0.68rem] font-black uppercase text-cream/66 sm:text-xs">{content.heroBadge}</span>
+            <span className="truncate text-[0.68rem] font-black uppercase text-cream/66 sm:text-xs">{content.heroBadge}</span>
           </motion.div>
 
           <h1 className="display-text max-w-5xl text-balance text-[4.15rem] text-cream sm:text-[5.8rem] md:text-[6.9rem] lg:text-[8rem]">
@@ -132,7 +132,7 @@ export function Hero() {
           </motion.p>
 
           <motion.div
-            className="mt-8 grid w-full max-w-md grid-cols-2 gap-3 sm:flex sm:w-auto sm:max-w-none sm:flex-wrap sm:justify-center"
+            className="mt-8 flex w-full max-w-sm flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.52, duration: 0.58 }}
@@ -152,7 +152,7 @@ export function Hero() {
             </MagneticButton>
             <ResumeDownloadMenu
               align="left"
-              className="focus-ring group col-span-2 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-black uppercase !text-cream/66 transition hover:!text-lime sm:w-auto"
+              className="focus-ring group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-black uppercase !text-cream/66 transition hover:!text-lime sm:w-auto"
             >
               Download Resume
               <ArrowUpRight size={17} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

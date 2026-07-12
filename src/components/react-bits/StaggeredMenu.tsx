@@ -110,7 +110,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
   }
 
   return (
-    <div ref={contentRef} className="pointer-events-auto fixed inset-0 z-[140] isolate overflow-hidden bg-[#070707] lg:hidden" aria-modal="true" role="dialog">
+    <div ref={contentRef} className="pointer-events-auto fixed inset-0 z-[140] isolate overflow-hidden bg-[#070707] xl:hidden" aria-modal="true" role="dialog">
       <div ref={preLayersRef} className="pointer-events-auto absolute inset-0" aria-hidden="true">
         {layerColors.map((color) => (
           <div key={color} className="sm-prelayer absolute inset-0" style={{ background: color }} />
