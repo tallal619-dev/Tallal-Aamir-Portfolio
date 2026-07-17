@@ -167,6 +167,7 @@ export function ResumeDownloadMenu({ children, className, wrapperClassName, menu
                   key={option.href}
                   href={option.href}
                   download
+                  data-cursor="button"
                   role="menuitem"
                   onClick={() => {
                     setOpen(false);

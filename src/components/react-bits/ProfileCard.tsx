@@ -297,6 +297,16 @@ function ProfileCardComponent({
   );
 
   useEffect(() => {
+    const disableMobileHover = window.matchMedia("(hover: none), (pointer: coarse), (max-width: 768px)").matches;
+
+    if (disableMobileHover) {
+      tiltEngine?.cancel();
+      shellRef.current?.classList.remove("active", "entering");
+      wrapRef.current?.classList.remove("active");
+
+      return undefined;
+    }
+
     if (!enableTilt || !tiltEngine) {
       return undefined;
     }

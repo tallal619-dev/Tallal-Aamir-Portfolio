@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, ReactNode, useEffect, useRef, useState } from "react";
+import { Children, type ReactNode, type TouchEvent, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +23,12 @@ export function MobileCarousel({
 }: MobileCarouselProps) {
   const items = Children.toArray(children);
   const trackRef = useRef<HTMLDivElement>(null);
+  const touchRef = useRef<{
+    axis: "x" | "y" | null;
+    startScrollLeft: number;
+    startX: number;
+    startY: number;
+  } | null>(null);
   const [active, setActive] = useState(0);
 
   const scrollToIndex = (index: number) => {
@@ -30,6 +36,52 @@ export function MobileCarousel({
     const target = track?.children[index] as HTMLElement | undefined;
 
     target?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    const touch = event.touches[0];
+
+    if (!track || !touch || event.touches.length !== 1) {
+      touchRef.current = null;
+      return;
+    }
+
+    touchRef.current = {
+      axis: null,
+      startScrollLeft: track.scrollLeft,
+      startX: touch.clientX,
+      startY: touch.clientY
+    };
+  };
+
+  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    const track = trackRef.current;
+    const touch = event.touches[0];
+    const state = touchRef.current;
+
+    if (!track || !touch || !state) {
+      return;
+    }
+
+    const dx = touch.clientX - state.startX;
+    const dy = touch.clientY - state.startY;
+
+    if (!state.axis && Math.hypot(dx, dy) > 8) {
+      state.axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? "x" : "y";
+    }
+
+    if (state.axis === "x") {
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+
+      track.scrollLeft = state.startScrollLeft - dx;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    touchRef.current = null;
   };
 
   useEffect(() => {
@@ -76,8 +128,12 @@ export function MobileCarousel({
         role="region"
         aria-label={ariaLabel}
         tabIndex={0}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchCancel={handleTouchEnd}
+        onTouchEnd={handleTouchEnd}
         className={cn(
-          "no-scrollbar flex min-w-0 snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-5 scroll-smooth outline-none md:grid md:overflow-visible md:pb-0",
+          "no-scrollbar flex min-w-0 touch-pan-y snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-5 scroll-smooth outline-none md:grid md:overflow-visible md:pb-0",
           desktopClassName,
           trackClassName
         )}

@@ -92,7 +92,7 @@ export function CursorFollower() {
   return (
     <motion.div
       aria-hidden="true"
-      className="pointer-events-none fixed z-[120] hidden border border-white bg-white/10 shadow-[0_0_0_1px_rgba(0,0,0,0.04),0_0_28px_rgba(255,255,255,0.18)] mix-blend-difference lg:block"
+      className="pointer-events-none fixed z-[300] hidden border border-white bg-white/10 shadow-[0_0_0_1px_rgba(0,0,0,0.04),0_0_28px_rgba(255,255,255,0.18)] mix-blend-difference lg:block"
       style={{
         x: springX,
         y: springY,

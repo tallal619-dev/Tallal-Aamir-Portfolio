@@ -1272,6 +1272,51 @@ html[data-portfolio-mode="fullStack"] .about-profile-card .pc-contact-btn {
   }
 }
 
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  .about-profile-card.pc-card-wrapper:hover,
+  .about-profile-card.pc-card-wrapper.active {
+    --card-opacity: 0;
+  }
+
+  .about-profile-card .pc-card:hover,
+  .about-profile-card .pc-card.active,
+  .about-profile-card .pc-card-shell.active .pc-card {
+    transform: translateZ(0) rotateX(0deg) rotateY(0deg);
+  }
+
+  .about-profile-card .pc-card:hover .pc-shine,
+  .about-profile-card .pc-card.active .pc-shine,
+  .about-profile-card .pc-card-shell.active .pc-shine {
+    filter: brightness(0.5) contrast(1.08) saturate(0.28) opacity(0.38);
+    animation-play-state: running;
+  }
+
+  .about-profile-card .pc-card:hover .pc-shine::before,
+  .about-profile-card .pc-card.active .pc-shine::before,
+  .about-profile-card .pc-card:hover .pc-shine::after,
+  .about-profile-card .pc-card.active .pc-shine::after,
+  .about-profile-card .pc-card-shell.active .pc-shine::before,
+  .about-profile-card .pc-card-shell.active .pc-shine::after {
+    opacity: 0;
+  }
+
+  .about-profile-card .pc-card:hover .avatar-color,
+  .about-profile-card .pc-card.active .avatar-color,
+  .about-profile-card .pc-card-shell.active .avatar-color {
+    opacity: 0;
+  }
+
+  .about-profile-card .pc-card:hover .avatar-base,
+  .about-profile-card .pc-card.active .avatar-base,
+  .about-profile-card .pc-card-shell.active .avatar-base {
+    filter: grayscale(1) saturate(0.05) contrast(1.06) brightness(0.9);
+  }
+
+  .about-profile-card .pc-contact-btn:hover {
+    transform: none;
+  }
+}
+
 @supports (animation-timeline: view()) {
   @media (min-width: 1024px) {
     .contact-reveal {
