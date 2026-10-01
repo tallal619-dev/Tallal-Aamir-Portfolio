@@ -56,7 +56,7 @@ export function FloatingContactCTA() {
     if (lenis?.scrollTo) {
       lenis.scrollTo(contact, { offset: -84 });
     } else {
-      contact.scrollIntoView({ behavior: "smooth", block: "start" });
+      contact.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
     }
 
     window.history.pushState(null, "", "#contact");
@@ -67,6 +67,7 @@ export function FloatingContactCTA() {
       type="button"
       data-cursor="button"
       aria-label="Jump to contact form"
+      disabled={hidden || scrollLocked}
       onClick={handleClick}
       className="focus-ring fixed bottom-5 right-5 z-40 grid size-16 place-items-center rounded-full border border-lime/40 bg-lime !text-black shadow-[0_18px_70px_rgba(0,0,0,0.34)] transition hover:bg-shopify lg:hidden [&_*]:!text-black"
       initial={{ opacity: 0, y: 18 }}

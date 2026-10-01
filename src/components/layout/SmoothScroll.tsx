@@ -7,7 +7,7 @@ export function SmoothScroll() {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) {
       return undefined;
     }
 

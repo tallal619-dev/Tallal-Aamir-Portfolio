@@ -1,26 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, Check, Code2, Database, Gauge, ServerCog, ShoppingBag, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Project } from "@/data/portfolio";
 import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { SpotlightCard } from "@/components/react-bits/SpotlightCard";
 import { TiltCard } from "@/components/react-bits/TiltCard";
 import { cn } from "@/lib/utils";
+import { CaseStudyPreview } from "@/components/ui/CaseStudyPreview";
 
 interface ProjectCardProps {
   project: Project;
   index: number;
-}
-
-type SystemVisualKind = "kanban" | "auction" | "pos" | "desktop" | "records" | "mobile";
-
-interface SystemVisual {
-  kind: SystemVisualKind;
-  stats: string[];
 }
 
 const modalMetricsByMode = {
@@ -36,199 +29,11 @@ const modalMetricsByMode = {
   ]
 };
 
-function getSystemVisual(project: Project): SystemVisual {
-  if (project.title.includes("Trello")) {
-    return {
-      kind: "kanban",
-      stats: ["Next.js", "Node API", "AWS S3"]
-    };
-  }
-
-  if (project.title.includes("Auction")) {
-    return {
-      kind: "auction",
-      stats: ["Live bids", "RBAC", "Supabase"]
-    };
-  }
-
-  if (project.title.includes("Electron")) {
-    return {
-      kind: "desktop",
-      stats: ["Electron", "Offline", "Receipts"]
-    };
-  }
-
-  if (project.title.includes("POS")) {
-    return {
-      kind: "pos",
-      stats: ["Sales", "Stock", "Reports"]
-    };
-  }
-
-  if (project.title.includes("Breeders")) {
-    return {
-      kind: "mobile",
-      stats: ["Flutter", "Firebase", "Release"]
-    };
-  }
-
-  return {
-    kind: "records",
-    stats: ["Records", "Roles", "Reports"]
-  };
-}
-
-function SystemPreview({ kind, isModal }: { kind: SystemVisualKind; isModal: boolean }) {
-  const cardHeight = isModal ? "h-16" : "h-10";
-
-  if (kind === "kanban") {
-    return (
-      <div className="grid grid-cols-3 gap-3">
-        {["Plan", "Build", "Ship"].map((column, columnIndex) => (
-          <div key={column} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-2">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-[0.6rem] font-black uppercase text-cream/65">{column}</span>
-              <span className="size-1.5 rounded-full bg-lime" />
-            </div>
-            <div className="grid gap-2">
-              {[0, 1, 2].slice(0, columnIndex === 2 ? 2 : 3).map((item) => (
-                <span key={item} className={cn(cardHeight, "rounded-[6px] border border-sky-300/[0.12] bg-sky-300/[0.08]")} />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (kind === "auction") {
-    return (
-      <div className="grid gap-3 sm:grid-cols-[1.15fr_0.85fr]">
-        <div className="grid gap-2">
-          {[0, 1, 2].map((item) => (
-            <div key={item} className="grid grid-cols-[2.3rem_1fr_auto] items-center gap-3 rounded-[8px] border border-white/10 bg-white/[0.04] p-2">
-              <span className="h-7 rounded bg-sky-300/[0.12]" />
-              <span className="grid gap-1.5">
-                <span className="h-1.5 w-24 rounded bg-cream/25" />
-                <span className="h-1.5 w-16 rounded bg-lime/60" />
-              </span>
-              <span className="h-5 w-12 rounded-full bg-lime/15" />
-            </div>
-          ))}
-        </div>
-        <div className="rounded-[8px] border border-lime/25 bg-lime/10 p-3">
-          <span className="block text-[0.62rem] font-black uppercase text-lime">Live bid</span>
-          <span className="mt-5 block text-2xl font-black text-cream">$24.8K</span>
-          <span className="mt-4 block h-8 rounded-full bg-lime" />
-        </div>
-      </div>
-    );
-  }
-
-  if (kind === "pos" || kind === "desktop") {
-    return (
-      <div className="grid gap-3 sm:grid-cols-[1fr_0.72fr]">
-        <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-3">
-          <div className="grid grid-cols-3 gap-2">
-            {Array.from({ length: 9 }, (_, item) => (
-              <span key={item} className={cn(isModal ? "h-12" : "h-8", "rounded-[6px] bg-sky-300/10")} />
-            ))}
-          </div>
-          <span className="mt-3 block h-7 rounded-full bg-lime/80" />
-        </div>
-        <div className="rounded-[8px] border border-white/10 bg-black/30 p-3">
-          <span className="block h-2 w-20 rounded bg-cream/30" />
-          <span className="mt-4 block h-px bg-white/12" />
-          <span className="mt-4 block h-px bg-white/12" />
-          <span className="mt-4 block text-2xl font-black text-lime">$184.50</span>
-          <span className="mt-5 block h-7 rounded-full border border-lime/30" />
-        </div>
-      </div>
-    );
-  }
-
-  if (kind === "mobile") {
-    return (
-      <div className="mx-auto grid max-w-[22rem] grid-cols-[0.68fr_1fr] items-center gap-4">
-        <div className="rounded-[1.35rem] border border-sky-300/25 bg-black/40 p-2">
-          <div className="min-h-48 rounded-[1rem] bg-sky-300/[0.08] p-3">
-            <span className="mx-auto block h-1 w-10 rounded bg-cream/25" />
-            <span className="mt-6 block h-20 rounded-[8px] bg-lime/15" />
-            <span className="mt-3 block h-2 w-24 rounded bg-cream/25" />
-            <span className="mt-2 block h-2 w-16 rounded bg-sky-300/30" />
-          </div>
-        </div>
-        <div className="grid gap-2">
-          {[0, 1, 2, 3].map((item) => (
-            <span key={item} className="h-10 rounded-[8px] border border-white/10 bg-white/[0.04]" />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid gap-3">
-      <div className="flex items-center justify-between rounded-[8px] border border-white/10 bg-white/[0.04] p-3">
-        <span className="h-2 w-32 rounded bg-cream/20" />
-        <span className="h-6 w-16 rounded-full bg-lime/60" />
-      </div>
-      <div className="grid gap-2">
-        {[0, 1, 2, 3].map((item) => (
-          <div key={item} className="grid grid-cols-[auto_1fr_0.75fr] items-center gap-3 rounded-[8px] border border-white/10 bg-white/[0.035] p-2">
-            <span className="size-2 rounded-full bg-lime" />
-            <span className="h-1.5 rounded bg-cream/20" />
-            <span className="h-1.5 rounded bg-sky-300/25" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SystemCaseVisual({ project, index, variant = "card" }: { project: Project; index: number; variant?: "card" | "modal" }) {
-  const visual = getSystemVisual(project);
-  const isModal = variant === "modal";
-
-  return (
-    <div className={cn("relative h-full overflow-hidden bg-[#06101d]", isModal ? "min-h-[520px]" : "min-h-[300px]")}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(56,189,248,0.22),transparent_24rem),linear-gradient(135deg,rgba(56,189,248,0.14),transparent_42%,rgba(37,99,235,0.12))]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:28px_28px] opacity-30" />
-
-      <div className={cn("relative z-10 flex h-full flex-col", isModal ? "p-7 lg:p-9" : "p-5 sm:p-6")}>
-        <div className="flex items-center justify-between gap-4">
-          <span className="rounded-full border border-lime/35 bg-black/50 px-3 py-1 text-xs font-black uppercase text-lime backdrop-blur-xl">
-            Case 0{index + 1}
-          </span>
-          <span className="rounded-full border border-white/12 bg-white/[0.055] px-3 py-1 text-[0.66rem] font-black uppercase text-cream/70">
-            {visual.stats[0]}
-          </span>
-        </div>
-
-        <div className={cn("grid flex-1 items-center", isModal ? "py-8" : "py-6")}>
-          <div className={cn("mx-auto w-full max-w-[34rem] rounded-[8px] border border-sky-300/20 bg-black/40 p-3 shadow-[0_28px_90px_rgba(0,0,0,0.34)] backdrop-blur-xl", isModal ? "max-w-[40rem] p-4" : "p-4")}>
-            <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
-              <div className="flex gap-1.5">
-                <span className="size-2 rounded-full bg-red-400/75" />
-                <span className="size-2 rounded-full bg-amber-300/75" />
-                <span className="size-2 rounded-full bg-lime/80" />
-              </div>
-              <span className="h-2 w-20 rounded-full bg-white/12" />
-            </div>
-            <SystemPreview kind={visual.kind} isModal={isModal} />
-          </div>
-        </div>
-
-        {isModal ? null : <span className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#06101d] to-transparent" />}
-      </div>
-    </div>
-  );
-}
-
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const { mode } = usePortfolioMode();
   const isFullStack = mode === "fullStack";
   const [open, setOpen] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const modalMetrics = modalMetricsByMode[mode];
   const modalTitleId = useMemo(() => `${project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-modal-title`, [project.title]);
 
@@ -241,9 +46,18 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
     const previousOverflow = document.body.style.overflow;
     const previousRootOverflow = root.style.overflow;
     const previousOverscroll = document.body.style.overscrollBehavior;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const focusFrame = requestAnimationFrame(() => overlayRef.current?.querySelector<HTMLButtonElement>("button")?.focus());
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
+      }
+      if (event.key === "Tab") {
+        const focusable = Array.from(overlayRef.current?.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], [tabindex="0"]') ?? []);
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
       }
     };
 
@@ -255,12 +69,14 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      cancelAnimationFrame(focusFrame);
       delete root.dataset.scrollLocked;
       root.style.overflow = previousRootOverflow;
       document.body.style.overflow = previousOverflow;
       document.body.style.overscrollBehavior = previousOverscroll;
       window.dispatchEvent(new CustomEvent("portfolio:scroll-lock", { detail: { locked: false } }));
       window.removeEventListener("keydown", handleKeyDown);
+      previousFocus?.focus({ preventScroll: true });
     };
   }, [open]);
 
@@ -275,32 +91,8 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       >
         <TiltCard className="h-full" strength={5}>
           <SpotlightCard className="group/case h-full">
-            <article className={cn("grid h-full overflow-hidden", isFullStack ? "min-h-[640px] grid-rows-[300px_1fr]" : "min-h-[540px] grid-rows-[250px_1fr]")}>
-              <div className="relative overflow-hidden border-b border-white/10 bg-[#080d0a]">
-                {isFullStack ? (
-                  <SystemCaseVisual project={project} index={index} />
-                ) : (
-                  <>
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} case study preview`}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover opacity-90 transition duration-700 group-hover/case:scale-105 group-hover/case:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,7,0.04),rgba(7,7,7,0.64)),radial-gradient(circle_at_24%_18%,rgba(215,255,74,0.16),transparent_38%)]" />
-                    <div className="absolute left-5 top-5 rounded-full border border-lime/35 bg-black/42 px-3 py-1 text-xs font-black uppercase text-lime backdrop-blur-xl">
-                      Case 0{index + 1}
-                    </div>
-                    <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
-                      <div className="rounded-[8px] border border-white/12 bg-black/44 px-3 py-2 backdrop-blur-xl">
-                        <p className="text-[0.68rem] font-black uppercase text-cream/72">{project.eyebrow}</p>
-                      </div>
-                      <span className="h-px flex-1 bg-gradient-to-r from-lime/70 to-transparent" />
-                    </div>
-                  </>
-                )}
-              </div>
+            <article className={cn("grid h-full overflow-hidden", isFullStack ? "min-h-[640px] grid-rows-[auto_1fr]" : "min-h-[540px] grid-rows-[auto_1fr]")}>
+              <CaseStudyPreview project={project} />
 
               <div className={cn("flex flex-col p-6 sm:p-7", isFullStack && "bg-[linear-gradient(180deg,rgba(7,17,31,0.82),rgba(4,8,15,0.96))] p-7 sm:p-8")}>
                 <p className="eyebrow text-shopify">{project.eyebrow}</p>
@@ -340,6 +132,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             <AnimatePresence>
               {open && (
                 <motion.div
+                  ref={overlayRef}
                   className="fixed inset-0 z-[140] flex items-center justify-center overflow-hidden bg-black/82 p-3 backdrop-blur-2xl sm:p-5"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -377,26 +170,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                     onTouchMoveCapture={(event) => event.stopPropagation()}
                   >
                     <div className="grid lg:grid-cols-[0.92fr_1.08fr]">
-                      <figure className={cn("relative min-h-[260px] overflow-hidden bg-[#07100b] sm:min-h-[350px] lg:sticky lg:top-0 lg:min-h-[680px]", isFullStack && "lg:self-start")}>
-                        {isFullStack ? (
-                          <SystemCaseVisual project={project} index={index} variant="modal" />
-                        ) : (
-                          <>
-                            <Image
-                              src={project.image}
-                              alt={`${project.title} case study visual`}
-                              fill
-                              sizes="(max-width: 1024px) 100vw, 48vw"
-                              className="object-cover brightness-125 contrast-110 saturate-125"
-                              priority={open}
-                            />
-                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_16%,rgba(215,255,74,0.08),transparent_34%)]" />
-                            <div className="absolute left-4 top-4 rounded-full border border-lime/35 bg-black/50 px-3 py-1 text-xs font-black uppercase text-lime backdrop-blur-xl sm:left-6 sm:top-6">
-                              Case Study 0{index + 1}
-                            </div>
-                          </>
-                        )}
-                      </figure>
+                      <CaseStudyPreview project={project} expanded />
 
                       <div className="p-5 pt-16 sm:p-8 sm:pt-16 lg:p-10">
                         <div className="max-w-2xl">

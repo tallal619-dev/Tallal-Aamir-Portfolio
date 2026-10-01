@@ -3,6 +3,7 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { PortfolioMode } from "@/data/portfolio";
 import { portfolioModeCopy } from "@/data/portfolio";
+import { MotionConfig } from "motion/react";
 
 const storageKey = "tallal-portfolio-mode-v3";
 
@@ -25,7 +26,8 @@ export function PortfolioModeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let frame = 0;
-    const storedMode = window.localStorage.getItem(storageKey);
+    let storedMode: string | null = null;
+    try { storedMode = window.localStorage.getItem(storageKey); } catch { /* Storage may be disabled in private browsing. */ }
 
     frame = window.requestAnimationFrame(() => {
       storageReady.current = true;
@@ -42,7 +44,7 @@ export function PortfolioModeProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.portfolioMode = mode;
 
     if (storageReady.current) {
-      window.localStorage.setItem(storageKey, mode);
+      try { window.localStorage.setItem(storageKey, mode); } catch { /* Switching still works without persistence. */ }
     }
   }, [mode]);
 
@@ -71,7 +73,7 @@ export function PortfolioModeProvider({ children }: { children: ReactNode }) {
     [mode, switchMode, toggleMode]
   );
 
-  return <PortfolioModeContext.Provider value={value}>{children}</PortfolioModeContext.Provider>;
+  return <PortfolioModeContext.Provider value={value}><MotionConfig reducedMotion="user">{children}</MotionConfig></PortfolioModeContext.Provider>;
 }
 
 export function usePortfolioMode() {

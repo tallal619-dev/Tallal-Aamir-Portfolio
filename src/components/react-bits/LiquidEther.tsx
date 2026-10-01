@@ -35,6 +35,10 @@ export default function LiquidEther({
 
   useEffect(() => {
     if (!mountRef.current) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const touchDevice = window.matchMedia('(pointer: coarse)').matches;
+    if (reducedMotion.matches) return;
+    const renderResolution = touchDevice ? Math.min(resolution, 0.25) : resolution;
 
     function makePaletteTexture(stops) {
       let arr;
@@ -87,7 +91,7 @@ export default function LiquidEther({
       }
       init(container) {
         this.container = container;
-        this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        this.pixelRatio = Math.min(window.devicePixelRatio || 1, touchDevice ? 1 : 2);
         this.resize();
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.autoClear = false;
@@ -951,7 +955,7 @@ export default function LiquidEther({
           const hidden = document.hidden;
           if (hidden) {
             this.pause();
-          } else if (isVisibleRef.current) {
+          } else if (isVisibleRef.current && !reducedMotion.matches) {
             this.start();
           }
         };
@@ -991,6 +995,8 @@ export default function LiquidEther({
       }
       dispose() {
         try {
+          this.pause();
+          paletteTex.dispose();
           window.removeEventListener('resize', this._resize);
           document.removeEventListener('visibilitychange', this._onVisibility);
           Mouse.dispose();
@@ -1032,19 +1038,24 @@ export default function LiquidEther({
         isViscous,
         viscous,
         iterations_viscous: iterationsViscous,
-        iterations_poisson: iterationsPoisson,
+        iterations_poisson: touchDevice ? Math.min(iterationsPoisson, 16) : iterationsPoisson,
         dt,
         BFECC,
-        resolution,
+        resolution: renderResolution,
         isBounce
       });
-      if (resolution !== prevRes) {
+      if (renderResolution !== prevRes) {
         sim.resize();
       }
     };
     applyOptionsFromProps();
 
     webgl.start();
+    const handleMotionPreference = () => {
+      if (reducedMotion.matches) webgl.pause();
+      else if (isVisibleRef.current && !document.hidden) webgl.start();
+    };
+    reducedMotion.addEventListener('change', handleMotionPreference);
 
     // IntersectionObserver to pause rendering when not visible
     const io = new IntersectionObserver(
@@ -1053,7 +1064,7 @@ export default function LiquidEther({
         const isVisible = entry.isIntersecting && entry.intersectionRatio > 0;
         isVisibleRef.current = isVisible;
         if (!webglRef.current) return;
-        if (isVisible && !document.hidden) {
+        if (isVisible && !document.hidden && !reducedMotion.matches) {
           webglRef.current.start();
         } else {
           webglRef.current.pause();
@@ -1076,6 +1087,8 @@ export default function LiquidEther({
     resizeObserverRef.current = ro;
 
     return () => {
+      reducedMotion.removeEventListener('change', handleMotionPreference);
+      if (resizeRafRef.current) cancelAnimationFrame(resizeRafRef.current);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       if (resizeObserverRef.current) {
         try {
@@ -1119,6 +1132,8 @@ export default function LiquidEther({
   useEffect(() => {
     const webgl = webglRef.current;
     if (!webgl) return;
+    const touchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const renderResolution = touchDevice ? Math.min(resolution, 0.25) : resolution;
     const sim = webgl.output?.simulation;
     if (!sim) return;
     const prevRes = sim.options.resolution;
@@ -1128,10 +1143,10 @@ export default function LiquidEther({
       isViscous,
       viscous,
       iterations_viscous: iterationsViscous,
-      iterations_poisson: iterationsPoisson,
+      iterations_poisson: touchDevice ? Math.min(iterationsPoisson, 16) : iterationsPoisson,
       dt,
       BFECC,
-      resolution,
+      resolution: renderResolution,
       isBounce
     });
     if (webgl.autoDriver) {
@@ -1144,7 +1159,7 @@ export default function LiquidEther({
         webgl.autoDriver.mouse.takeoverDuration = takeoverDuration;
       }
     }
-    if (resolution !== prevRes) {
+    if (renderResolution !== prevRes) {
       sim.resize();
     }
   }, [

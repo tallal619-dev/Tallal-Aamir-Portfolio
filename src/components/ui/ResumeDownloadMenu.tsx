@@ -101,7 +101,21 @@ export function ResumeDownloadMenu({ children, className, wrapperClassName, menu
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
         setOpen(false);
+        rootRef.current?.querySelector("button")?.focus();
+      }
+      const items = Array.from(menuRef.current?.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]') ?? []);
+      const index = items.indexOf(document.activeElement as HTMLAnchorElement);
+      if (["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) {
+        event.preventDefault();
+        const next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 : (index + (event.key === "ArrowDown" ? 1 : -1) + items.length) % items.length;
+        items[next]?.focus();
+      }
+      if (event.key === "Tab") {
+        setOpen(false);
+        rootRef.current?.querySelector("button")?.focus();
       }
     };
 
@@ -130,6 +144,12 @@ export function ResumeDownloadMenu({ children, className, wrapperClassName, menu
       window.removeEventListener("scroll", updateMenuPosition, true);
     };
   }, [open, updateMenuPosition]);
+
+  useEffect(() => {
+    if (open && menuStyle.visibility === "visible") {
+      menuRef.current?.querySelector<HTMLAnchorElement>('[role="menuitem"]')?.focus({ preventScroll: true });
+    }
+  }, [open, menuStyle.visibility]);
 
   return (
     <div ref={rootRef} className={cn("relative inline-flex", wrapperClassName)}>

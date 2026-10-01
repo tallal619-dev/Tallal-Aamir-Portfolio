@@ -2,7 +2,7 @@
 
 import { useMotionValueEvent, useScroll } from "motion/react";
 import { ArrowUpRight, Download, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { contact, navItems } from "@/data/portfolio";
 import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { StaggeredMenu } from "@/components/react-bits/StaggeredMenu";
@@ -21,7 +21,7 @@ export function Header() {
     setScrolled(latest > 18);
   });
 
-  const closeMenu = () => setMenuOpen(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   return (
     <header

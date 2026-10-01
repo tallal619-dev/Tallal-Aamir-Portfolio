@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, type ReactNode, type TouchEvent, useEffect, useRef, useState } from "react";
+import { Children, type ReactNode, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,65 +23,15 @@ export function MobileCarousel({
 }: MobileCarouselProps) {
   const items = Children.toArray(children);
   const trackRef = useRef<HTMLDivElement>(null);
-  const touchRef = useRef<{
-    axis: "x" | "y" | null;
-    startScrollLeft: number;
-    startX: number;
-    startY: number;
-  } | null>(null);
   const [active, setActive] = useState(0);
 
   const scrollToIndex = (index: number) => {
     const track = trackRef.current;
     const target = track?.children[index] as HTMLElement | undefined;
 
-    target?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-  };
-
-  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    const track = trackRef.current;
-    const touch = event.touches[0];
-
-    if (!track || !touch || event.touches.length !== 1) {
-      touchRef.current = null;
-      return;
-    }
-
-    touchRef.current = {
-      axis: null,
-      startScrollLeft: track.scrollLeft,
-      startX: touch.clientX,
-      startY: touch.clientY
-    };
-  };
-
-  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
-    const track = trackRef.current;
-    const touch = event.touches[0];
-    const state = touchRef.current;
-
-    if (!track || !touch || !state) {
-      return;
-    }
-
-    const dx = touch.clientX - state.startX;
-    const dy = touch.clientY - state.startY;
-
-    if (!state.axis && Math.hypot(dx, dy) > 8) {
-      state.axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? "x" : "y";
-    }
-
-    if (state.axis === "x") {
-      if (event.cancelable) {
-        event.preventDefault();
-      }
-
-      track.scrollLeft = state.startScrollLeft - dx;
-    }
-  };
-
-  const handleTouchEnd = () => {
-    touchRef.current = null;
+    if (!track || !target) return;
+    const left = target.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft - (track.clientWidth - target.offsetWidth) / 2;
+    track.scrollTo({ left, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
   };
 
   useEffect(() => {
@@ -128,12 +78,15 @@ export function MobileCarousel({
         role="region"
         aria-label={ariaLabel}
         tabIndex={0}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchCancel={handleTouchEnd}
-        onTouchEnd={handleTouchEnd}
+        onKeyDown={(event) => {
+          if (event.target !== event.currentTarget || window.matchMedia("(min-width: 768px)").matches) return;
+          if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+            event.preventDefault();
+            scrollToIndex(Math.max(0, Math.min(items.length - 1, active + (event.key === "ArrowRight" ? 1 : -1))));
+          }
+        }}
         className={cn(
-          "no-scrollbar flex min-w-0 touch-pan-y snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-5 scroll-smooth outline-none md:grid md:overflow-visible md:pb-0",
+          "focus-ring no-scrollbar flex min-w-0 touch-auto snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overscroll-x-contain pb-5 md:grid md:overflow-visible md:pb-0",
           desktopClassName,
           trackClassName
         )}
@@ -174,19 +127,17 @@ export function MobileCarousel({
             </button>
           </div>
 
-          <div className="flex max-w-[42vw] items-center justify-center gap-1.5 overflow-hidden" aria-label="Carousel slides">
-            {items.map((_, index) => (
+          <div className="flex items-center justify-center" aria-label="Carousel slides">
+            {items.length <= 6 ? items.map((_, index) => (
               <button
                 key={index}
                 type="button"
                 aria-label={`Go to slide ${index + 1}`}
+                aria-current={active === index ? "true" : undefined}
                 onClick={() => scrollToIndex(index)}
-                className={cn(
-                  "h-1.5 rounded-full transition-all",
-                  active === index ? "w-6 bg-lime" : "w-1.5 bg-white/28 hover:bg-white/45"
-                )}
-              />
-            ))}
+                className="focus-ring grid size-7 place-items-center rounded-full"
+              ><span className={cn("h-1.5 rounded-full transition-all", active === index ? "w-5 bg-lime" : "w-1.5 bg-white/28")} /></button>
+            )) : <span className="min-w-16 text-center text-xs font-bold tabular-nums text-cream/70" aria-live="polite">{active + 1} / {items.length}</span>}
           </div>
         </div>
       ) : null}

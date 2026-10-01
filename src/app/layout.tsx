@@ -13,7 +13,7 @@ const description =
   "Senior Shopify Developer and development lead building Shopify storefronts, product experiences, AJAX carts, metafield systems, and scalable e-commerce delivery for clients, agencies, and remote teams.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tallalaamir.dev"),
+  metadataBase: new URL("https://tallal-aamir-portfolio-website.netlify.app"),
   title,
   description,
   keywords: [

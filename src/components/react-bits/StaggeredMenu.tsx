@@ -42,6 +42,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
     const itemLabels = panel ? Array.from(panel.querySelectorAll(".sm-panel-item-label")) : [];
     const lowerItems = panel ? Array.from(panel.querySelectorAll(".sm-lower-item")) : [];
     const previousBodyOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
 
     if (!panel || !content) {
       return undefined;
@@ -50,7 +51,27 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
     document.body.style.overflow = "hidden";
     window.dispatchEvent(new CustomEvent("portfolio:scroll-lock", { detail: { locked: true } }));
 
+    const focusFrame = requestAnimationFrame(() => panel.querySelector<HTMLButtonElement>("button")?.focus());
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { event.preventDefault(); onClose(); }
+      if (event.key === "Tab") {
+        // Resume menus use a portal and manage their own keyboard navigation.
+        if (document.querySelector('[role="menu"]')) return;
+        const items = Array.from(panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'));
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
     const context = gsap.context(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set([panel, ...layers], { xPercent: 0, opacity: 1 });
+        gsap.set(itemLabels, { yPercent: 0, rotate: 0 });
+        gsap.set(lowerItems, { y: 0, opacity: 1 });
+        return;
+      }
       gsap.set([panel, ...layers], { xPercent: 100, opacity: 1 });
       gsap.set(itemLabels, { yPercent: 135, rotate: 8 });
       gsap.set(lowerItems, { y: 20, opacity: 0 });
@@ -68,10 +89,13 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
 
     return () => {
       context.revert();
+      cancelAnimationFrame(focusFrame);
+      window.removeEventListener("keydown", handleKeyDown);
+      previousFocus?.focus({ preventScroll: true });
       document.body.style.overflow = previousBodyOverflow;
       window.dispatchEvent(new CustomEvent("portfolio:scroll-lock", { detail: { locked: false } }));
     };
-  }, [open]);
+  }, [open, onClose]);
 
   const closeAndScroll = (href: string) => {
     onClose();
@@ -88,7 +112,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
       if (lenis?.scrollTo) {
         lenis.scrollTo(target, { offset: -88 });
       } else {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        target.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
       }
 
       window.history.pushState(null, "", href);
@@ -110,7 +134,7 @@ export function StaggeredMenu({ open, onClose }: StaggeredMenuProps) {
   }
 
   return (
-    <div ref={contentRef} className="pointer-events-auto fixed inset-0 z-[140] isolate overflow-hidden bg-[#070707] xl:hidden" aria-modal="true" role="dialog">
+    <div ref={contentRef} className="pointer-events-auto fixed inset-0 z-[140] isolate overflow-hidden bg-[#070707] xl:hidden" aria-modal="true" role="dialog" aria-label="Site navigation">
       <div ref={preLayersRef} className="pointer-events-auto absolute inset-0" aria-hidden="true">
         {layerColors.map((color) => (
           <div key={color} className="sm-prelayer absolute inset-0" style={{ background: color }} />

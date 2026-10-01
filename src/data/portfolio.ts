@@ -1,3 +1,5 @@
+import { resumeProjects } from "./resume-projects";
+
 export interface ExpertiseCard {
   title: string;
   description: string;
@@ -85,8 +87,8 @@ export const contact = {
   whatsapp: "https://wa.me/923125126884",
   fiverr: "https://www.fiverr.com/tallalaamir",
   location: "Islamabad, Pakistan",
-  resume: "/Tallal_Aamir_Senior_Shopify_Resume_Updated.pdf",
-  fullStackResume: "/Tallal_Aamir_Senior_Full_Stack_Developer_Resume.pdf",
+  resume: "/Tallal_Aamir_Senior_Shopify_Resume_2026.pdf",
+  fullStackResume: "/Tallal_Aamir_Senior_Full_Stack_Resume_2026.pdf",
   linkedIn: "https://www.linkedin.com/in/tallal-aamir-baa71b277/",
   github: "#"
 };
@@ -195,25 +197,25 @@ export const liveProjects: LiveProject[] = [
     title: "Counter Culture Coffee",
     category: "Premium Shopify / Coffee E-commerce",
     url: "https://counterculturecoffee.com/",
-    image: "/assets/projects/counter-culture-coffee.png",
+    image: "/assets/work/counter-culture.webp",
     description:
-      "A visually rich coffee e-commerce storefront with strong product presentation, brand storytelling, subscription-style commerce potential, and premium shopping experience.",
+      "A specialty-coffee storefront bringing product discovery, subscriptions, and brand storytelling into the shopping journey.",
     tags: ["Shopify", "E-commerce UX", "Product Pages", "Premium Storefront", "Coffee Brand"]
   },
   {
     title: "Touchy Coffee",
     category: "Shopify Coffee Storefront",
     url: "https://touchycoffee.com/",
-    image: "/assets/projects/touchy-coffee.png",
+    image: "/assets/work/touchy-coffee.webp",
     description:
-      "A clean and modern coffee storefront focused on product discovery, brand feel, smooth navigation, and conversion-friendly e-commerce structure.",
+      "An independent coffee storefront with distinctive branding, a focused product catalog, and responsive browsing.",
     tags: ["Shopify", "Coffee Store", "Storefront UX", "Responsive Design"]
   },
   {
     title: "Collanature",
     category: "Health & Supplement Shopify Store",
     url: "https://collanature.co.uk/",
-    image: "/assets/projects/collanature.png",
+    image: "/assets/work/collanature.webp",
     description:
       "A conversion-focused supplement storefront for a collagen product brand, built around product education, landing-page structure, trust-building content, and clear buying flow.",
     tags: ["Shopify", "Supplements", "Landing Page", "CRO", "Product Education"]
@@ -222,16 +224,16 @@ export const liveProjects: LiveProject[] = [
     title: "Alivia + Danny",
     category: "Personalized Jewelry Shopify Store",
     url: "https://www.aliviadanny.com/",
-    image: "/assets/projects/alivia-danny.png",
+    image: "/assets/work/alivia-danny.webp",
     description:
-      "A personalized jewelry storefront with custom product experience potential, strong visual branding, product customization relevance, and premium e-commerce presentation.",
+      "A personalized-jewelry storefront featuring lockets, photo jewelry, and detailed product experiences for meaningful gifts.",
     tags: ["Shopify", "Jewelry", "Product Customizer", "Personalization", "Premium UX"]
   },
   {
     title: "Masonic Libraries",
     category: "Shopify / Content + Commerce Website",
     url: "https://www.masoniclibraries.com/",
-    image: "/assets/projects/masonic-libraries.png",
+    image: "/assets/work/masonic.webp",
     description:
       "A specialized Shopify website combining structured content, collections, and e-commerce-style presentation for a niche organization.",
     tags: ["Shopify", "Content Architecture", "Collection Design", "Niche Storefront"]
@@ -240,9 +242,9 @@ export const liveProjects: LiveProject[] = [
     title: "Gigas Nutrition",
     category: "Sports Nutrition Shopify Store",
     url: "https://gigasnutrition.com/en",
-    image: "/assets/projects/gigas-nutrition.png",
+    image: "/assets/work/gigas.webp",
     description:
-      "A high-volume nutrition e-commerce storefront with product catalog structure, multilingual market potential, strong product browsing, and performance-focused shopping experience.",
+      "A sports-nutrition storefront with an extensive catalog, detailed product information, and category-led browsing.",
     tags: ["Shopify", "Nutrition", "Product Catalog", "International Store", "E-commerce UX"]
   }
 ];
@@ -252,7 +254,7 @@ export const fullStackLiveProjects: LiveProject[] = [
     title: "SHDW Devs",
     category: "Next.js Shopify Agency Website",
     url: "https://shdwdevs.com/",
-    image: "/assets/projects/shdwdevs-preview.png",
+    image: "/assets/work/shdw.webp",
     description:
       "A polished Next.js agency site for Shopify development services, built with a conversion-focused hero, service sections, pricing flow, responsive navigation, and direct project inquiry path.",
     tags: ["Next.js", "Agency Website", "Shopify Services", "Responsive UI", "Lead Flow"]
@@ -261,7 +263,7 @@ export const fullStackLiveProjects: LiveProject[] = [
     title: "Dumb Studios",
     category: "Next.js Creative Studio Website",
     url: "https://dumbstudios.com/",
-    image: "/assets/projects/dumb-studios-preview.png",
+    image: "/assets/work/dumb-studios.webp",
     description:
       "A bold creative agency website with motion-led brand presentation, dark editorial visuals, prominent project CTAs, and a high-impact layout for media and web production services.",
     tags: ["Next.js", "Creative Agency", "Motion UI", "Brand Site", "Responsive Design"]
@@ -269,10 +271,11 @@ export const fullStackLiveProjects: LiveProject[] = [
 ];
 
 export const projects: Project[] = [
+  ...resumeProjects,
   {
     title: "Dressed For Dinner",
     eyebrow: "Shopify Dress Rental Store",
-    image: "/assets/case-studies/dressed-for-dinner.png",
+    image: "/assets/case-studies/interfaces/rental.svg",
     tags: ["Shopify", "Booking Flow", "Collection UX", "Custom Sections", "QA"],
     techStack: ["Liquid", "Shopify 2.0", "JavaScript", "Custom Sections"],
     description:
@@ -299,7 +302,7 @@ export const projects: Project[] = [
   {
     title: "Custom Jewelry Product Configurator",
     eyebrow: "Sytrix / Offshore Project through Noor Ahmed E-Commerce Solutions",
-    image: "/assets/case-studies/custom-jewelry-configurator.png",
+    image: "/assets/case-studies/interfaces/jewelry.svg",
     tags: ["Shopify", "Liquid", "JavaScript", "Product Customizer", "Metafields"],
     techStack: ["Liquid", "JavaScript", "Metafields", "Theme Performance"],
     description:
@@ -326,7 +329,7 @@ export const projects: Project[] = [
   {
     title: "Shopify Theme Systems",
     eyebrow: "Noor Ahmed E-Commerce Solutions",
-    image: "/assets/case-studies/shopify-theme-systems.png",
+    image: "/assets/case-studies/interfaces/theme.svg",
     tags: ["Shopify 2.0", "Liquid", "AJAX", "Metaobjects", "Theme Architecture"],
     techStack: ["Shopify 2.0", "AJAX", "Metaobjects", "Liquid", "Theme CLI"],
     description:
@@ -354,7 +357,7 @@ export const projects: Project[] = [
   {
     title: "Car Zone Portal",
     eyebrow: "Full Stack Vehicle Auction Platform",
-    image: "/assets/case-studies/car-zone-portal.png",
+    image: "/assets/case-studies/interfaces/auction.svg",
     tags: ["Next.js", "Supabase", "Auction Platform", "Admin Dashboard"],
     techStack: ["Next.js", "Supabase", "Role-Based Access", "Dashboards"],
     description:
@@ -380,23 +383,23 @@ export const projects: Project[] = [
   },
   {
     title: "Trello-Style Collaboration Platform",
-    eyebrow: "Next.js / Node.js / AWS S3 Hosted Product",
-    image: "/assets/case-studies/kanban-system.svg",
-    tags: ["Next.js", "Node.js", "AWS S3", "Drag and Drop", "Realtime UX"],
-    techStack: ["Next.js", "Node.js", "AWS S3", "REST APIs", "Drag and Drop"],
+    eyebrow: "Techtrove LLC / Real-Time Collaboration Platform",
+    image: "/assets/case-studies/interfaces/kanban.svg",
+    tags: ["Next.js", "Node.js", "Socket.IO", "Drag and Drop", "Realtime UX"],
+    techStack: ["Next.js", "Node.js", "MongoDB", "Socket.IO", "Zustand"],
     description:
-      "Built a Trello-inspired task management product with boards, lists, cards, drag-and-drop workflows, attachment handling, and deployment through an AWS S3 bucket hosting setup.",
+      "Built a Trello-style collaboration platform with boards, lists, cards, cross-board drag-and-drop, messaging, REST APIs, and real-time updates across multiple users.",
     highlights: [
       "Board/list/card workflows",
       "Drag-and-drop task movement",
-      "AWS S3 bucket hosting",
+      "Multi-user real-time updates",
       "Node.js API layer",
       "Product-style responsive UI"
     ],
     problem:
       "Teams needed a lightweight collaboration interface that could organize work visually, support task movement, and stay simple enough for daily use.",
     solution:
-      "I built a Next.js interface with board-based interactions, structured Node.js APIs, attachment-ready flows, and a deployable S3 hosting path.",
+      "I built the Next.js interface, Node.js APIs, MongoDB records, Socket.IO updates, and Zustand state management as an offshore project for Techtrove LLC through Noor Ahmed E-Commerce Solutions.",
     delivered: [
       "Kanban board interface with lists and cards",
       "Drag-and-drop movement across workflow columns",
@@ -408,7 +411,7 @@ export const projects: Project[] = [
   {
     title: "CarZone Live Auction Portal",
     eyebrow: "Vehicle Auction Platform",
-    image: "/assets/case-studies/auction-portal.svg",
+    image: "/assets/case-studies/interfaces/auction.svg",
     tags: ["Next.js", "Supabase", "Live Auctions", "Admin Dashboard", "RBAC"],
     techStack: ["Next.js", "Supabase", "PostgreSQL", "Role-Based Access", "Dashboards"],
     description:
@@ -435,7 +438,7 @@ export const projects: Project[] = [
   {
     title: "POS & Inventory Management Suite",
     eyebrow: "Retail Operations System",
-    image: "/assets/case-studies/pos-system.svg",
+    image: "/assets/case-studies/interfaces/pos.svg",
     tags: ["POS", "Inventory", "Reports", "Billing", "Admin UX"],
     techStack: ["React", "Node.js", "SQL", "REST APIs", "Dashboard UI"],
     description:
@@ -462,7 +465,7 @@ export const projects: Project[] = [
   {
     title: "Electron POS Desktop App",
     eyebrow: "Local-Running Desktop POS",
-    image: "/assets/case-studies/pos-system.svg",
+    image: "/assets/case-studies/interfaces/desktop.svg",
     tags: ["Electron.js", "Local App", "POS", "Offline-Ready", "Desktop UX"],
     techStack: ["Electron.js", "JavaScript", "Local Storage", "Desktop UI", "POS Logic"],
     description:
@@ -489,11 +492,11 @@ export const projects: Project[] = [
   {
     title: "IMS Systems",
     eyebrow: "Inventory Management Platforms",
-    image: "/assets/case-studies/data-systems.svg",
+    image: "/assets/case-studies/interfaces/inventory.svg",
     tags: ["Inventory", "Stock Control", "Dashboards", "Reports", "Admin Tools"],
-    techStack: ["React", "Node.js", "SQL", "REST APIs", "Role-Based UI"],
+    techStack: ["Angular 18", ".NET Web API", "Dapper", "SQL Server", "Azure SQL"],
     description:
-      "Built inventory management systems for tracking products, stock levels, movements, categories, suppliers, and reporting across admin workflows.",
+      "Built inventory check-in/check-out, stock thresholds, organizations, locations, categories, validation, and duplicate prevention with Angular and .NET Web API.",
     highlights: ["Stock movement tracking", "Product records", "Supplier views", "Reports", "Admin dashboards"],
     problem:
       "Manual inventory handling creates errors, unclear stock levels, and slow reporting for teams managing products across daily operations.",
@@ -510,7 +513,7 @@ export const projects: Project[] = [
   {
     title: "Student Data Bank",
     eyebrow: "Education Records System",
-    image: "/assets/case-studies/data-systems.svg",
+    image: "/assets/case-studies/interfaces/students.svg",
     tags: ["Student Records", "Search", "Data Bank", "Admin Dashboard", "Reports"],
     techStack: ["React", "Node.js", "Database Design", "Forms", "Dashboard UI"],
     description:
@@ -531,7 +534,7 @@ export const projects: Project[] = [
   {
     title: "Employee Management System",
     eyebrow: "HR & Operations Dashboard",
-    image: "/assets/case-studies/data-systems.svg",
+    image: "/assets/case-studies/interfaces/employees.svg",
     tags: ["Employees", "Roles", "Attendance", "Admin Dashboard", "Reports"],
     techStack: ["React", "Node.js", "Authentication", "SQL", "Dashboard UI"],
     description:
@@ -552,7 +555,7 @@ export const projects: Project[] = [
   {
     title: "Breeders App",
     eyebrow: "Mobile App Published On Play Store",
-    image: "/assets/case-studies/mobile-breeders-app.svg",
+    image: "/assets/case-studies/interfaces/breeders.svg",
     tags: ["Mobile App", "Play Store", "Flutter", "Data Management", "User Workflows"],
     techStack: ["Flutter", "Firebase", "Mobile UI", "Play Store Release", "Data Models"],
     description:
@@ -574,7 +577,7 @@ export const projects: Project[] = [
 
 export const experience: ExperienceEntry[] = [
   {
-    role: "Senior Shopify Developer / Development Lead",
+    role: "Development Lead",
     company: "Noor Ahmed E-Commerce Solutions",
     period: "Apr 2025 - Jan 2026",
     description:
@@ -627,7 +630,7 @@ export const experience: ExperienceEntry[] = [
     ]
   },
   {
-    role: "Freelance Shopify Developer",
+    role: "Independent Senior Developer",
     company: "Fiverr & Direct Clients",
     period: "Jun 2023 - Present",
     bullets: [
@@ -637,7 +640,7 @@ export const experience: ExperienceEntry[] = [
     ]
   },
   {
-    role: "Training Officer",
+    role: "Training Officer - Advanced Python & Software Development",
     company: "Roshan Hunar Markaz, Gujar Khan - NAVTTC Project",
     period: "Feb 2026 - Present",
     bullets: [
@@ -691,6 +694,7 @@ export const skillGroups: SkillGroup[] = [
       "TypeScript",
       "React.js",
       "Next.js",
+      "Angular",
       "HTML5",
       "CSS3",
       "Tailwind CSS",
@@ -706,6 +710,7 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       "Node.js",
       "Express.js",
+      ".NET Web API",
       "REST APIs",
       "WebSockets",
       "Authentication",
@@ -720,6 +725,9 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       "MongoDB",
       "PostgreSQL",
+      "SQL Server",
+      "Azure SQL",
+      "Dapper",
       "MySQL",
       "Firebase",
       "Supabase",
@@ -758,6 +766,7 @@ export const fullStackSkillGroups: SkillGroup[] = skillGroups.map((group) => {
         "TypeScript",
         "React.js",
         "Next.js",
+        "Angular 18",
         "Electron.js",
         "HTML5",
         "CSS3",
@@ -777,6 +786,8 @@ export const fullStackSkillGroups: SkillGroup[] = skillGroups.map((group) => {
       skills: [
         "Node.js",
         "Express.js",
+        "C#",
+        ".NET Web API",
         "REST APIs",
         "WebSockets",
         "Authentication",
@@ -795,6 +806,9 @@ export const fullStackSkillGroups: SkillGroup[] = skillGroups.map((group) => {
       skills: [
         "MongoDB",
         "PostgreSQL",
+        "SQL Server",
+        "Azure SQL",
+        "Dapper",
         "MySQL",
         "Firebase",
         "Supabase",
@@ -892,10 +906,10 @@ export const fiverrReviewStats: FiverrReviewStat[] = [
   {
     value: "5.0",
     label: "Overall Fiverr rating",
-    detail: "Public profile rating across client reviews"
+    detail: "Public profile snapshot, September 30, 2026"
   },
   {
-    value: "24",
+    value: "30",
     label: "Public reviews",
     detail: "Fiverr buyers reviewing delivered work"
   },
@@ -1089,7 +1103,7 @@ export const portfolioModeCopy: Record<PortfolioMode, PortfolioModeContent> = {
     heroSecondLead: "Lead calmly.",
     heroHighlight: "Ship clean.",
     heroCopy:
-      "Senior Shopify developer and full-stack commerce engineer for brands, agencies, and hiring teams that need polished storefronts, custom product flows, and dependable delivery.",
+      "4+ years building custom Shopify storefronts, product configurators, and commerce systems. I work directly with brands and agencies, from technical planning through launch and support.",
     heroColors: ["#D7FF4A", "#ffffff", "#a5cf97"],
     heroBackground: "#050806",
     heroNameTag: "Muhammad Tallal Aamir / Shopify Lead",
@@ -1102,8 +1116,8 @@ export const portfolioModeCopy: Record<PortfolioMode, PortfolioModeContent> = {
     },
     featuredHeading: {
       eyebrow: "Selected delivery",
-      title: "Shopify Work With Real Business Context",
-      copy: "Storefronts, product experiences, agency builds, and performance-focused improvements that show both client impact and senior development judgment."
+      title: "Shopify Stores. Custom Solutions.",
+      copy: "Explore live storefronts across coffee, jewelry, wellness, and specialist retail. Open a case study below for the technical work behind custom features and systems."
     },
     caseStudyHeading: {
       eyebrow: "Technical depth",
@@ -1114,6 +1128,8 @@ export const portfolioModeCopy: Record<PortfolioMode, PortfolioModeContent> = {
       "Custom Jewelry Product Configurator",
       "Dressed For Dinner",
       "Shopify Theme Systems",
+      "Cart, Bundle & Upsell Systems",
+      "Collection Filtering & Product Discovery",
       "Car Zone Portal"
     ],
     stackHeading: {
@@ -1155,13 +1171,13 @@ export const portfolioModeCopy: Record<PortfolioMode, PortfolioModeContent> = {
     switchLabel: "Full Stack",
     alternateLabel: "Commerce",
     resume: contact.fullStackResume,
-    headerRole: "Full Stack Systems Developer",
-    heroBadge: "Full Stack Developer / Systems Engineer",
+    headerRole: "Senior Full-Stack Engineer",
+    heroBadge: "Senior Full-Stack Software Engineer",
     heroFirstLine: "Build systems.",
     heroSecondLead: "Wire data.",
     heroHighlight: "Ship products.",
     heroCopy:
-      "Full-stack developer building Next.js products, Node.js APIs, AWS S3 hosted apps, live auction portals, POS systems, IMS tools, data banks, employee dashboards, Electron desktop apps, and mobile apps.",
+      "4+ years building applications with React, Next.js, Node.js, and TypeScript, with hands-on .NET and Angular experience. From real-time collaboration to business systems, I own the interface, APIs, data, and delivery.",
     heroColors: ["#38BDF8", "#F5F7FB", "#2563EB"],
     heroBackground: "#05070c",
     heroNameTag: "Muhammad Tallal Aamir / Full Stack Systems Developer",
@@ -1174,8 +1190,8 @@ export const portfolioModeCopy: Record<PortfolioMode, PortfolioModeContent> = {
     },
     featuredHeading: {
       eyebrow: "Selected systems",
-      title: "Full-Stack Products, Portals, POS And Data Systems",
-      copy: "Next.js products, AWS S3 hosted apps, auction portals, POS and inventory tools, student data banks, employee management systems, and Play Store mobile delivery."
+      title: "Full-Stack Products & Systems",
+      copy: "Brand websites, real-time collaboration, inventory management, and tools for everyday business operations. Explore the interfaces, APIs, and data workflows behind the work."
     },
     caseStudyHeading: {
       eyebrow: "Product depth",
@@ -1190,7 +1206,9 @@ export const portfolioModeCopy: Record<PortfolioMode, PortfolioModeContent> = {
       "IMS Systems",
       "Student Data Bank",
       "Employee Management System",
-      "Breeders App"
+      "Breeders App",
+      "Vehicle Tracking System",
+      "School Management System"
     ],
     stackHeading: {
       eyebrow: "Stack",

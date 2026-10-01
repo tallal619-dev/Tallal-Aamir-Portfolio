@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { motion } from "motion/react";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
@@ -38,12 +38,20 @@ type LenisWindow = Window & {
   };
 };
 
+function subscribeReducedMotion(callback: () => void) {
+  const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+
 function TypewriterText({ phrases }: { phrases: string[] }) {
+  const reducedMotion = useSyncExternalStore(subscribeReducedMotion, () => window.matchMedia("(prefers-reduced-motion: reduce)").matches, () => false);
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    if (reducedMotion) return;
     const current = phrases[phraseIndex];
     const atEnd = !deleting && displayed === current;
     const atStart = deleting && displayed === "";
@@ -66,12 +74,12 @@ function TypewriterText({ phrases }: { phrases: string[] }) {
     }, delay);
 
     return () => window.clearTimeout(timer);
-  }, [deleting, displayed, phraseIndex, phrases]);
+  }, [deleting, displayed, phraseIndex, phrases, reducedMotion]);
 
   return (
     <span>
-      {displayed}
-      <span className="ml-1 inline-block h-[1em] w-[0.12em] translate-y-1 bg-lime align-baseline animate-pulse" aria-hidden="true" />
+      {reducedMotion ? phrases[0] : displayed}
+      {!reducedMotion && <span className="ml-1 inline-block h-[1em] w-[0.12em] translate-y-1 bg-lime align-baseline animate-pulse" aria-hidden="true" />}
     </span>
   );
 }

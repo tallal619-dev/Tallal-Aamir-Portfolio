@@ -4,7 +4,8 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import { ArrowUpRight, Download, Mail, MessageCircle } from "lucide-react";
-import { contact, portfolioModeCopy } from "@/data/portfolio";
+import { contact } from "@/data/portfolio";
+import { usePortfolioMode } from "@/components/layout/PortfolioModeProvider";
 import { FiverrIcon } from "@/components/ui/FiverrIcon";
 import { ResumeDownloadMenu } from "@/components/ui/ResumeDownloadMenu";
 import { buildMailto } from "@/lib/utils";
@@ -30,7 +31,7 @@ const contactFormVariants: Variants = {
 };
 
 export function Contact() {
-  const contactContent = portfolioModeCopy.shopify;
+  const { content: contactContent } = usePortfolioMode();
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
@@ -42,6 +43,7 @@ export function Contact() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [emailDraftReady, setEmailDraftReady] = useState(false);
   const footerLinks = [
     { label: "Fiverr", href: contact.fiverr, external: true },
     { label: "LinkedIn", href: contact.linkedIn, external: true },
@@ -51,9 +53,8 @@ export function Contact() {
   ];
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isCompact = window.matchMedia("(max-width: 1023px)").matches;
-    const disableReveal = prefersReducedMotion || isCompact;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compact = window.matchMedia("(max-width: 1023px)");
     let frame = 0;
     let current = 0;
     let target = 0;
@@ -71,7 +72,7 @@ export function Contact() {
         return;
       }
 
-      if (disableReveal) {
+      if (reducedMotion.matches || compact.matches) {
         panel.style.clipPath = "inset(0% 0% 0% 0%)";
         intro.style.opacity = "0";
         content.style.opacity = "1";
@@ -104,13 +105,8 @@ export function Contact() {
       }
     };
 
-    if (disableReveal) {
-      applyProgress(1);
-      return undefined;
-    }
-
     const tick = () => {
-      updateProgress();
+      frame = 0;
       current += (target - current) * 0.24;
 
       if (Math.abs(target - current) < 0.001) {
@@ -118,19 +114,26 @@ export function Contact() {
       }
 
       applyProgress(current);
-      frame = requestAnimationFrame(tick);
+      if (Math.abs(target - current) > 0.001) frame = requestAnimationFrame(tick);
+    };
+
+    const scheduleProgress = () => {
+      updateProgress();
+      if (!frame) frame = requestAnimationFrame(tick);
     };
 
     updateProgress();
     applyProgress(current);
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
+    window.addEventListener("scroll", scheduleProgress, { passive: true });
+    window.addEventListener("resize", scheduleProgress);
+    reducedMotion.addEventListener("change", scheduleProgress);
     frame = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("resize", updateProgress);
+      window.removeEventListener("scroll", scheduleProgress);
+      window.removeEventListener("resize", scheduleProgress);
+      reducedMotion.removeEventListener("change", scheduleProgress);
     };
   }, []);
 
@@ -210,6 +213,7 @@ export function Contact() {
     ].join("\n");
 
     window.location.href = buildMailto(subject, body);
+    setEmailDraftReady(true);
   };
 
   return (
@@ -308,6 +312,10 @@ export function Contact() {
                   <label className="grid gap-3 lg:gap-2">
                     <span className="display-text text-3xl text-black sm:text-4xl lg:text-[1.7rem]">Full Name</span>
                     <input
+                      name="name"
+                      autoComplete="name"
+                      required
+                      maxLength={100}
                       value={name}
                       onChange={(event) => setName(event.target.value)}
                       className="h-16 border-0 border-b-2 border-black bg-transparent px-0 text-lg font-bold text-black outline-none placeholder:text-black/38 focus:border-black/60 lg:h-10 lg:text-base"
@@ -317,6 +325,9 @@ export function Contact() {
                   <label className="grid gap-3 lg:gap-2">
                     <span className="display-text text-3xl text-black sm:text-4xl lg:text-[1.7rem]">Phone Number</span>
                     <input
+                      name="phone"
+                      autoComplete="tel"
+                      maxLength={40}
                       value={phone}
                       onChange={(event) => setPhone(event.target.value)}
                       type="tel"
@@ -329,6 +340,10 @@ export function Contact() {
                 <motion.label className="grid gap-3 lg:gap-2" variants={contactFieldVariants}>
                   <span className="display-text text-3xl text-black sm:text-4xl lg:text-[1.7rem]">Email</span>
                   <input
+                    name="email"
+                    autoComplete="email"
+                    required
+                    maxLength={254}
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     type="email"
@@ -340,6 +355,10 @@ export function Contact() {
                 <motion.label className="grid gap-3 lg:gap-2" variants={contactFieldVariants}>
                   <span className="display-text text-3xl text-black sm:text-4xl lg:text-[1.7rem]">Your Message</span>
                   <textarea
+                    name="message"
+                    required
+                    minLength={10}
+                    maxLength={4000}
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
                     rows={4}
@@ -354,10 +373,15 @@ export function Contact() {
                     data-cursor="button"
                     className="focus-ring group inline-flex min-h-12 items-center gap-3 border-b-4 border-black pb-1 text-right font-black uppercase text-black transition hover:gap-5 hover:opacity-70 sm:text-2xl lg:text-lg"
                   >
-                    Send A Message
+                    Open Email Draft
                     <ArrowUpRight size={24} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </button>
                 </motion.div>
+                <p className="text-sm leading-5 text-black/70 lg:text-xs" role="status">
+                  {emailDraftReady
+                    ? "Review your draft and send it in your email app. If no app opened, use the email or WhatsApp links here."
+                    : "Opens your email app with these details. You review and send the message there."}
+                </p>
               </motion.form>
             </motion.div>
 

@@ -19,6 +19,7 @@ export function TiltCard({ children, className, strength = 7 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMove = (event: MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
     const bounds = ref.current?.getBoundingClientRect();
 
     if (!bounds) {
